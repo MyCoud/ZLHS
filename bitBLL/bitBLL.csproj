@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\bitDal\bitDal.csproj" />
+    <ProjectReference Include="..\bitibll\bitibll.csproj" />
+    <ProjectReference Include="..\bitidal\bitidal.csproj" />
+  </ItemGroup>
+
+</Project>
