@@ -5,7 +5,7 @@ using System.Text;
 namespace bitBLL
 {
 
-    //写入固定增删改查方法
+    //写入固定增删改查方法--
     interface BaseSerive
     {
     }
