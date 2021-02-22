@@ -2,7 +2,7 @@
 
 namespace bitidal
 {
-    public class IUserGroup:IBaseUser
+    public class IUserGroup
     {
     }
 }

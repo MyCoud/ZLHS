@@ -2,7 +2,7 @@
 
 namespace bitModel
 {
-    public class Class1
+    public class Users
     {
     }
 }
