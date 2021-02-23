@@ -12,5 +12,9 @@ namespace BitsitakeMvc.Controllers
         {
             return View();
         }
+        public ActionResult Indesx()
+        {
+            return View();
+        }
     }
 }

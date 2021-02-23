@@ -9,6 +9,10 @@
 <head>
     <meta name="viewport" content="width=device-width" />
 
+
+
+
+
     <title>Index</title>
 </head>
 <body>
@@ -19,25 +23,28 @@
     </div>
 </body>
 </html>
-<script>
-    $('#btnAdd').click(function () {
-        var data = {
-            Name: $('#btnName').val(),
-            Age: $('#Age').val(),
-        }
-        $.ajax({
-            url: 'http://localhost:52142/api/Defunct/MeName',
-            type: 'get',
-            data: data,
-            dataType:'json',
-            success: function (d) {
-                if (d > 0) {
-                    alert('成功');
-                }
-                else {
-                    alert('失败');
-                }
+
+@section Scripts {
+    <script>
+        $('#btnAdd').click(function () {
+            var data = {
+                Name: $('#btnName').val(),
+                Age: $('#Age').val(),
             }
+            $.ajax({
+                url: 'http://localhost:52142/api/Defunct/MeName',
+                type: 'post',
+                data: data,
+                contentType: "application/json",
+                success: function (d) {
+                    if (d > 0) {
+                        alert('成功');
+                    }
+                    else {
+                        alert('失败');
+                    }
+                }
+            })
         })
-    })
-</script>
+    </script>
+}
