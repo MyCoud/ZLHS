@@ -8,43 +8,40 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-
-
-
-
-
     <title>Index</title>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
 </head>
 <body>
     <div>
-        <input id="btnName" type="text" name="Name" />
-        <input id="btnAge" type="text" name="Age" />
-        <input id="btnAdd" type="submit" value="submit" />
-    </div>
+        <form>
+            <input id="btnName" type="text" name="Name" />
+            <input id="btnAge" type="text" name="Age" />
+            <input id="btnAdd" type="submit" value="submit" />
+        </form>
+    </div> 
+        <script>
+            $('#btnAdd').click(function () {
+                var data = {
+                    Name: $('#btnName').val(),
+                    Age: $('#btnAge').val(),
+                }
+                $.ajax({
+                    url: 'http://localhost:52142/api/Defunct/MeName',
+                    type: 'post',
+                    data: data,
+                    success: function (d) {
+                        if (d > 0) {
+                            alert('成功');
+                        }
+                        else {
+                            alert('失败');
+                        }
+                    }
+                })
+            })
+        </script>
+    
 </body>
 </html>
 
-@section Scripts {
-    <script>
-        $('#btnAdd').click(function () {
-            var data = {
-                Name: $('#btnName').val(),
-                Age: $('#Age').val(),
-            }
-            $.ajax({
-                url: 'http://localhost:52142/api/Defunct/MeName',
-                type: 'post',
-                data: data,
-                contentType: "application/json",
-                success: function (d) {
-                    if (d > 0) {
-                        alert('成功');
-                    }
-                    else {
-                        alert('失败');
-                    }
-                }
-            })
-        })
-    </script>
-}
+
