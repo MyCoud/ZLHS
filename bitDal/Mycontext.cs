@@ -12,6 +12,7 @@ namespace bitDal
     {
         public MyContext()
         {
+
         }
 
         public MyContext(DbContextOptions<MyContext> options)

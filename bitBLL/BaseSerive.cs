@@ -8,5 +8,6 @@ namespace bitBLL
     //写入固定增删改查方法--
     interface BaseSerive
     {
+
     }
 }

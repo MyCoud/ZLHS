@@ -15,6 +15,8 @@ namespace bitibll
         bool Uptforts(T entity);
         //根据id查询
         List<T> Getforid(T entity);
+
+
         //获取所有数据
         List<T> Getformany();
         //带条件查询
