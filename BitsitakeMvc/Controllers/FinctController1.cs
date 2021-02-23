@@ -8,7 +8,7 @@ namespace BitsitakeMvc.Controllers
 {
     public class FinctController1 : Controller
     {
-        public IActionResult Index()
+        public ActionResult Index()
         {
             return View();
         }

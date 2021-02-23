@@ -8,31 +8,36 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <script src="C:\Users\PC\Source\Repos\BitsitakeMvc\BitsitakeMvc\layui-v2.5.7\layui\layui.js"></script>
-    <link href="C:\Users\PC\Source\Repos\BitsitakeMvc\BitsitakeMvc\layui-v2.5.7\layui\css\layui.css" rel="stylesheet" />
+
     <title>Index</title>
 </head>
 <body>
-    <table id="demo" lay-filter="test"></table>
-    <script>
-        layui.use('table', function () {
-            var table = layui.table;
-
-            //第一个实例
-            table.render({
-                elem: '#demo'
-                , height: 312
-                , url: 'http://localhost:52142/api/Defunct/MeName' //数据接口
-                , page: true //开启分页
-                , cols: [[ //表头
-                    { field: 'Id', title: 'Id', width: 80, sort: true, fixed: 'left' }
-                    , { field: 'Name', title: '姓名', width: 80 }
-                    , { field: 'Age', title: '年龄', width: 80, sort: true }
-     
-                ]]
-            });
-
-        });
-    </script>
+    <div>
+        <input id="btnName" type="text" name="Name" />
+        <input id="btnAge" type="text" name="Age" />
+        <input id="btnAdd" type="submit" value="submit" />
+    </div>
 </body>
 </html>
+<script>
+    $('#btnAdd').click(function () {
+        var data = {
+            Name: $('#btnName').val(),
+            Age: $('#Age').val(),
+        }
+        $.ajax({
+            url: 'http://localhost:52142/api/Defunct/MeName',
+            type: 'get',
+            data: data,
+            dataType:'json',
+            success: function (d) {
+                if (d > 0) {
+                    alert('成功');
+                }
+                else {
+                    alert('失败');
+                }
+            }
+        })
+    })
+</script>
