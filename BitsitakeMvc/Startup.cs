@@ -41,7 +41,8 @@ namespace BitsitakeMvc
             app.UseRouting();
 
             app.UseAuthorization();
-
+            app.UseDefaultFiles();
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
