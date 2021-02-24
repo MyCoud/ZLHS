@@ -8,11 +8,12 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
+    
 
 
-    <script src="C:\Users\PC\Source\Repos\BitsitakeMvc\BitsitakeMvc\Scripts\jquery-3.4.1.js"></script>
     <title>Index</title>
     <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/js/jquery.unobtrusive-ajax.js"></script>
 </head>
 <body>
     <div>
@@ -31,7 +32,10 @@
                 $.ajax({
                     url: 'http://localhost:52142/api/Defunct/MeName',
                     type: 'post',
-                    data: data,
+                    //data: data,
+                    data: JSON.stringify(data),
+                    dataType: 'json',
+                    contentType: "application/json",//跨域
                     success: function (d) {
                         if (d > 0) {
                             alert('成功');
