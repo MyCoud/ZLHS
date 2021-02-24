@@ -36,10 +36,10 @@ namespace Bitsitake.Controllers
             .ToArray();
         }
 
-        public int Index()
+        [HttpGet]
+        public IEnumerable<WeatherForecast> Index()
         {
             _logger.LogInformation("Hello World");
-            return 0;
         }
     }
 }
