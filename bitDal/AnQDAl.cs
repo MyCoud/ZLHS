@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace bitDal
 {
-    class AnQDAl
+   public class AnQDAl
     {
+
     }
 }
