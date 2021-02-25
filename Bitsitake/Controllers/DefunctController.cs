@@ -22,11 +22,11 @@ namespace Bitsitake.Controllers
 
         //[EnableCors("any")]  //局部的
         //get api/values/MeName
-        [HttpPost("MeName")]
-        public int GetUsers([FromBody] Users s)
-        {
-            string sql = $"insert into Users values ('{s.Name}','{s.Age}')";
-            return conn.Execute(sql);
-        }
+        //[HttpPost("MeName")]
+        //public int GetUsers([FromBody] Users s)
+        //{
+        //    string sql = $"insert into Users values ('{s.Name}','{s.Age}')";
+        //    return conn.Execute(sql);
+        //}
     }
 }
