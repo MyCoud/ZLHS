@@ -29,7 +29,7 @@ namespace Bitsitake
         {
             var sqlConnection = Configuration.GetConnectionString("SqlServerConnection");
 
-            services.AddDbContext<MyContext>(option => option.UseSqlServer(sqlConnection));
+            
 
             services.AddMvc();
             //1¡¢×¢²á·þÎñSwagger
