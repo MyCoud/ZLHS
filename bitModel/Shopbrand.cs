@@ -4,7 +4,12 @@ using System.Text;
 
 namespace bitModel
 {
-  public  class PLogins
-    {....gn.looool, public int MyProperty { get; set; }
+  public  class Shopbrand//商品分类表
+
+    {
+        public int Fid
+        { get; set; }
+        public int Fname
+        { get; set; }//商品品牌
     }
 }
