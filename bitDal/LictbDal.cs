@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace bitDal
 {
-    class LictbDal
+   public class LictbDal
     {
+
     }
 }
