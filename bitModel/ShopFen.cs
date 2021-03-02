@@ -13,7 +13,8 @@ namespace bitModel
         public string Fname { get; set; }//商品分类名称
 
         public int Pid { get; set; }//父级ID
-
+        public int Size { get; set; }//大小
+        public int Color { get; set; }//颜色
 
     }
 }

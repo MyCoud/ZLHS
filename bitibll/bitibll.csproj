@@ -4,4 +4,9 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\bitidal\bitidal.csproj" />
+    <ProjectReference Include="..\bitModel\bitModel.csproj" />
+  </ItemGroup>
+
 </Project>

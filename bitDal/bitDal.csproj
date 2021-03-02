@@ -24,4 +24,10 @@
     <ProjectReference Include="..\bitModel\bitModel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Dapper">
+      <HintPath>..\..\第三方类库\Dapper.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

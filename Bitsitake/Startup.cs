@@ -42,6 +42,7 @@ namespace Bitsitake
                     Description = "by JiaJia"
                 });
             });
+            services.AddSession();
             #region 跨域  
 
             //配置跨域处理，允许所有来源：
@@ -82,7 +83,7 @@ namespace Bitsitake
             app.UseRouting();
             app.UseCors("kuayu");//全局跨域,将影响所有控制器
             app.UseAuthorization();
-
+            app.UseSession();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
