@@ -13,6 +13,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using bitDal;
 using Swashbuckle.AspNetCore.Swagger;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Http;
+using Bitsitake.Controllers;
+
 namespace Bitsitake
 {
     public class Startup
@@ -29,8 +33,16 @@ namespace Bitsitake
         {
             var sqlConnection = Configuration.GetConnectionString("SqlServerConnection");
 
-            
 
+            //services.Configure<CookiePolicyOptions>(options =>
+            //{
+            //    // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+            //    options.CheckConsentNeeded = context => false; // Default is true, make it false
+            //    options.MinimumSameSitePolicy = SameSiteMode.None;
+            //});
+            services.AddDistributedMemoryCache();
+
+            services.AddSession();
             services.AddMvc();
             //1、注册服务Swagger
             services.AddSwaggerGen(options =>
@@ -42,7 +54,7 @@ namespace Bitsitake
                     Description = "by JiaJia"
                 });
             });
-            services.AddSession();
+         
             #region 跨域  
 
             //配置跨域处理，允许所有来源：
@@ -83,6 +95,7 @@ namespace Bitsitake
             app.UseRouting();
             app.UseCors("kuayu");//全局跨域,将影响所有控制器
             app.UseAuthorization();
+            app.UseStaticHostEnviroment();
             app.UseSession();
             app.UseEndpoints(endpoints =>
             {

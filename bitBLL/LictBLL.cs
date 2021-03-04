@@ -31,5 +31,15 @@ namespace bitBLL
         {
             return dal.Addtext(s);
         }
+        //添加商品属性
+        public int AddOnTe(ShopFen s)
+        {
+            return dal.AddOnTe(s);
+        }
+        //获取商品属性
+        public List<ShopFen> GetFens()
+        {
+            return dal.GetFens();
+        }
     }
 }

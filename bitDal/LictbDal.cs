@@ -54,5 +54,22 @@ namespace bitDal
             string sql = $"insert into ShopImg values ('{s.Texplain}','{null}')";
             return conn.Execute(sql);
         }
+        //添加商品属性
+        public int AddOnTe(ShopFen s)
+        {
+            string sql = $"insert into ShopFen values ('{s.Fname}','{0}','{s.Size}','{s.Color}','{s.Kucun}')";
+            return conn.Execute(sql);
+        }
+        //获取商品属性
+        public List<ShopFen> GetFens()
+        {
+            string sql = "select case a.Size WHEN '1' THEN 'XL'end ,case a.Color WHEN '1' THEN '黑色'" +
+                " end,a.Kucun, case a.Fname" +
+                " WHEN '1' THEN 'Nike' WHEN '0' THEN 'Adidas' WHen'3' Then'安踏'  " +
+                "end ,b.Shop_Unit,b.ShopId,b.Shop_Clear from ShopFen" +
+                " a join ShopTab b on a.Fid=b.ShopId";
+            return conn.Query<ShopFen>(sql).ToList();
+        }
+    
     }
 }

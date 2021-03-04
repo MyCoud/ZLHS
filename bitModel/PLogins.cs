@@ -5,7 +5,7 @@ using System.Text;
 namespace bitModel
 {
     //登录注册表
-  public  class PLogin
+  public  class PLogins
     {
         public int LoginId { get; set; }//ID
         public string LoginPhone { get; set; }//手机号
