@@ -1,0 +1,342 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>SaxPrice</title>
+    <link href="~/layui-v2.5.7/layui/css/layui.css" rel="stylesheet" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/js/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/echarts-5.0.2/dist/echarts.min.js"></script>
+</head>
+<body>
+    <div style="width:1600px;height:1000px;margin-top:50px;">
+        <a style="margin-left:50px;">商品管理</a>
+        <a>商品价格本</a>
+        <hr />
+        <div class="demoTable">
+            <input id="Names" type="text" name="ShopName" placeholder="请输入属性名" autocomplete="off" style="width:240px;height:30px;margin-left:20px;">
+            <input class="layui-btn" data-type="reload" value="搜索" style="width:80px;">
+        </div>
+        <div class="site-demo-button" id="layerDemo" style="margin-left:380px;margin-top:-38px;">
+            <button data-method="offset" data-type="auto" class="layui-btn layui-btn-normal" style="width:80px;">添加</button>
+        </div>
+        <div id="adds" style="padding: 20px 100px;display:none;margin-left:100px;">
+            <label> 商品名称</label>
+            <input id="ShopName" type="text" name="ShopName" required lay-verify="required" placeholder="请输入标题" autocomplete="off" style="width:320px;height:30px;margin-left:20px;margin-top:30px;">
+            <br />
+            <label> 商品品牌</label>
+            <input id="Shop_Pid" type="text" name="Shop_Pid" required lay-verify="required" placeholder="请输入标题" autocomplete="off" style="width:320px;height:30px;margin-left:20px;margin-top:30px;">
+            <br />
+            <label> 商品分类</label>
+            <input id="Shop_Sid" type="text" name="Shop_Sid" required lay-verify="required" placeholder="请输入标题" autocomplete="off" style="width:320px;height:30px;margin-left:20px;margin-top:30px;">
+
+            <br />
+            <label> 商品单位</label>
+            <input id="Shop_Unit" type="text" name="Shop_Unit" required lay-verify="required" placeholder="请输入标题" autocomplete="off" style="width:320px;height:30px;margin-left:20px;margin-top:30px;">
+            <br />
+            <label> 出售价格</label>
+            <input id="Shop_Clear" type="text" name="Shop_Clear" required lay-verify="required" placeholder="请输入标题" autocomplete="off" style="width:320px;height:30px;margin-left:20px;margin-top:30px;">
+            <br />
+            <label> 进货价格</label>
+            <input id="Shop_Stock" type="text" name="Shop_Stock" required lay-verify="required" placeholder="请输入进货价格" autocomplete="off" style="width:320px;height:30px;margin-left:20px;margin-top:30px;">
+            <br />
+            <button id="bSouce" type="button" class="layui-btn" style="margin-left:70px;margin-top:30px;width:100px;">取消</button>
+            <input id="bfind" type="button" class="layui-btn layui-btn-normal" value="添加" style="margin-top:30px;margin-left:50px;width:100px;">
+        </div>
+        <table class="layui-hide" id="test" lay-filter="test"></table>
+    </div>
+        <script type="text/html" id="barDemo">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">查看走势</a>
+        </script>
+        <script src="~/layui-v2.5.7/layui/layui.js"></script>
+        <script>
+            layui.use('layer', function () { //独立版的layer无需执行这一句
+                var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+
+                //触发事件
+                var active = {
+                    offset: function (othis) {
+                        var type = othis.data('type')
+                            , text = othis.text();
+                        layer.open({
+                            type: 1
+                            , offset: type //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
+                            , id: 'layerDemo' + type //防止重复弹出
+                            , content: $("#adds")
+                            , area: ['880px', '580px']
+                            , btnAlign: 'c' //按钮居中
+                            , shade: 0 //不显示遮罩
+                            , yes: function () {
+                                layer.closeAll();
+                            }
+                        });
+                    }
+                };
+                $('#layerDemo .layui-btn').on('click', function () {
+                    var othis = $(this), method = othis.data('method');
+                    active[method] ? active[method].call(this, othis) : '';
+                });
+                $('#bSouce').on('click', function () {
+                    layer.closeAll();
+                });
+                $('#bfind').on('click', function (data) {
+                    var data =
+                    {
+                        ShopName: $('#ShopName').val(),
+                        Shop_Pid: $('#Shop_Pid').val(),
+                        Shop_Sid: $('#Shop_Sid').val(),
+                        Shop_Unit: $('#Shop_Unit').val(),
+                        Shop_Clear: $('#Shop_Clear').val(),
+                        Shop_Stock: $('#Shop_Stock').val(),
+
+                    };
+                    $.ajax({
+                        url: 'http://localhost:52142/api/Defunct/AddSaxFens',
+                        type: 'post',
+                        //data: data,
+                        data: JSON.stringify(data),
+                        dataType: 'json',
+                        contentType: "application/json",//跨域
+                        success: function (d) {
+                            if (d > 0) {
+                                alert('添加成功');
+                                location.reload();
+                            }
+                            else {
+                                alert('失败');
+                            }
+                        }
+                    })
+                });
+            });
+            layui.use(['table', 'laypage', 'form'], function () {
+                var table = layui.table;
+                var laydate = layui.laydate //日期
+                    , layer = layui.layer//弹层
+                    , laypage = layui.laypage//分页
+                    , form = layui.form;
+                table.render({
+                    page: true
+                    , id: 'testReload'
+                    , elem: '#test'
+                    , url: 'http://localhost:52142/api/Defunct/GetSaxFens'
+                    , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                    , cols: [[
+                        { field: 'ShopId', width: 150, title: '商品编号' }
+                        , { field: 'ShopName', width: 150, title: '商品名称' }
+                        , { field: 'Name', width: 150, title: '商品品牌' }
+                        , { field: 'Fname', width: 150, title: '商品分类' }
+                        , { field: 'Shop_Unit', width: 150, title: '单位' }
+                        , { field: 'Shop_Clear', width: 150, title: '出售价格' }
+                        , { field: 'Shop_Stock', width: 150, title: '进货价格' }
+                        , { width: 150, title: '操作', toolbar: '#barDemo' }
+                    ]]
+                });
+                var $ = layui.$, active = {
+                    reload: function () {
+                        var Names = $('#Names');
+                        //执行重载
+                        table.reload('testReload', {
+                            page: {
+                                curr: 1 //重新从第 1 页开始
+                            }
+                            , where: {
+                                ShopName: Names.val()
+                            }
+                        }, 'data');
+                    }
+                };
+                $('.demoTable .layui-btn').on('click', function () {
+                    var type = $(this).data('type');
+                    active[type] ? active[type].call(this) : '';
+                });
+
+                //根据姓名查询(ajax提交)
+                table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+                    var data = obj.data //获得当前行数
+                    if (obj.event === 'edit') {
+                        layer.open({
+                            //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                            type: 1,
+                            title: "修改信息"
+                            , content: $("#popUpdateTest")//引用的弹出层的页面层的方式加载修改界面表单
+                            , area: ['880px', '500px']
+                            , btnAlign: 'c' //按钮居中
+                            , shade: 0 //不显示遮罩
+                            , yes: function () {
+                                layer.closeAll();
+                            }
+                        });
+
+                        $.ajax({
+                            url: 'http://localhost:52142/api/Defunct/SaxFensid?id=' + data.ShopId,
+                            type: "get",
+                            dataType: 'json',
+                            contentType: "application/json",//跨域
+                            success: function (data) {
+                                console.log(data)
+                                form.val('example', {
+                                    "ShopName": data.shopName,
+                                    "Shop_Pid": data.shop_Pid,
+                                    "Shop_Sid": data.shop_Sid,
+                                    "Shop_Unit": data.shop_Unit,
+                                    "Shop_Clear": data.shop_Clear,
+                                    "Shop_Stock": data.shop_Stock,
+                                    "ShopId": data.shopId
+                                })
+
+                            }
+
+                        });
+
+                        //动态向表传递赋值可以参看文章进行修改界面的更新前数据的显示，当然也是异步请求的要数据的修改数据的获取
+
+                    }
+                    else {
+                        if (obj.event === 'del') {
+                            layer.open({
+                                //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                                type: 1,
+                                title: "价格走势图"
+                                , content: $("#main")//引用的弹出层的页面层的方式加载修改界面表单
+                                , area: ['700px', '500px']
+                                , btnAlign: 'c' //按钮居中
+                                , shade: 0 //不显示遮罩
+                                , yes: function () {
+                                    layer.closeAll();
+                                }
+                            });
+                        }
+                    }
+                });
+            });
+
+        </script>
+        <div class="layui-row" id="popUpdateTest" style="padding: 20px 100px;display:none;">
+            <div class="layui-col-md10">
+
+                <form class="layui-form" action="" lay-filter="example">
+                    <input id="Id" type="hidden" name="ShopId" />
+                    <label> 商品名称</label>
+                    <input id="ShopNames" type="text" name="ShopName" required lay-verify="required" placeholder="请输入标题" autocomplete="off" style="width:320px;height:30px;margin-left:20px;margin-top:30px;">
+                    <br />
+                    <label> 商品品牌</label>
+                    <input id="Shop_Pids" type="text" name="Shop_Pid" required lay-verify="required" placeholder="请输入标题" autocomplete="off" style="width:320px;height:30px;margin-left:20px;margin-top:30px;">
+                    <br />
+                    <label> 商品分类</label>
+                    <input id="Shop_Sids" type="text" name="Shop_Sid" required lay-verify="required" placeholder="请输入标题" autocomplete="off" style="width:320px;height:30px;margin-left:20px;margin-top:30px;">
+
+                    <br />
+                    <label> 商品单位</label>
+                    <input id="Shop_Units" type="text" name="Shop_Unit" required lay-verify="required" placeholder="请输入标题" autocomplete="off" style="width:320px;height:30px;margin-left:20px;margin-top:30px;">
+                    <br />
+                    <label> 出售价格</label>
+                    <input id="Shop_Clears" type="text" name="Shop_Clear" required lay-verify="required" placeholder="请输入标题" autocomplete="off" style="width:320px;height:30px;margin-left:20px;margin-top:30px;">
+                    <br />
+                    <label> 进货价格</label>
+                    <input id="Shop_Stocks" type="text" name="Shop_Stock" required lay-verify="required" placeholder="请输入进货价格" autocomplete="off" style="width:320px;height:30px;margin-left:20px;margin-top:30px;">
+                    <br />
+
+                    <input id="bianZwy" type="button" class="layui-btn layui-btn-normal" value="编辑" style="margin-top:30px;margin-left:180px;">
+                </form>
+            </div>
+        </div>
+        <div class="layui-row" id="main" style="width: 600px;height:400px;display:none"></div>
+        <script>
+
+            $('#bianZwy').on('click', function (data) {
+                var data =
+                {
+                    ShopId: $("#Id").val(),
+                    ShopName: $('#ShopNames').val(),
+                    Shop_Pid: $('#Shop_Pids').val(),
+                    Shop_Sid: $('#Shop_Sids').val(),
+                    Shop_Unit: $('#Shop_Units').val(),
+                    Shop_Clear: $('#Shop_Clears').val(),
+                    Shop_Stock: $('#Shop_Stocks').val(),
+
+                };
+                console.log(data)
+                $.ajax({
+                    url: 'http://localhost:52142/api/Defunct/UptSaxFens',
+                    type: 'post',
+                    //data: data,
+                    data: JSON.stringify(data),
+                    dataType: 'json',
+                    contentType: "application/json",//跨域
+                    success: function (d) {
+                        if (d > 0) {
+                            alert('修改成功');
+                            location.reload();
+                        }
+                        else {
+                            alert('修改失败');
+                        }
+                    }
+                })
+            });
+        </script>
+        <script type="text/javascript">
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('main'));
+
+            // 指定图表的配置项和数据
+            var option = {
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: ['出售价格', '进货价格']
+                },
+                xAxis: {
+                    type: 'category',
+                    data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+                yAxis: {
+                    type: 'value'
+                },
+
+                series: [
+                    {
+                        name: '出售价格',
+                        type: 'line',
+                        stack: '总量',
+                        data: [23, 25, 36, 15, 20, 23, 13, 48, 55, 60, 23, 70]
+                    },
+                    {
+                        name: '进货价格',
+                        type: 'line',
+                        stack: '总量',
+                        data: [23, 25, 36, 15, 20, 23, 13, 48, 16, 60, 23, 10]
+                    },
+                ]
+            };
+
+
+
+
+
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+        </script>
+</body>
+</html>

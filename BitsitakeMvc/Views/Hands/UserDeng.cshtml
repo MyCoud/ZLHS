@@ -1,0 +1,148 @@
+﻿@{
+    ViewData["Title"] = "UserDeng";
+    Layout = null;
+}
+
+@*<h1>UserDeng</h1>*@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>登录账号</title>
+    @*<script src="~/layui/layui.all.js"></script>
+        <script src="~/layui/layui.js"></script>*@
+
+    <link href="~/layui-v2.5.7/layui/css/layui.css" rel="stylesheet" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/js/jquery.unobtrusive-ajax.js"></script>
+</head>
+<body>
+
+    @*个人登陆页面*@
+    <div style="background-color:#20232A;height:50px">
+        <strong>
+            <label style="float:left;color:#12ADA9;font-size:23px;margin-left:400px;margin-top:7px">ERP管理系统</label>
+
+        </strong>
+    </div>
+    <div style="background-color: #E3E7E6;height: 700px">
+
+        <img src="~/Img/102.jpg" />xuedaole1、
+        <div style="width: 900px;height: 600px;float: left;margin-left: 800px;margin-top:-600px;background-color: white;border-bottom: 1px solid #C1C1C1;border-left: 1px solid #C1C1C1;border-right: 1px solid #C1C1C1">
+
+            <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief" style="float:left;margin-left:70px;margin-top:50px">
+                <label class="layui-this" style="font-size: 20px;width:100px;margin-left:120px;border-bottom:none;color:#12ADA9">密码登录</label>
+                <div class="layui-tab-content" style="height: 100px;">
+                    <div class="layui-tab-item layui-show" style="float:left;margin-top:50px">
+                        <table>
+                            <tr>
+                                <td>
+                                    <i class="layui-icon layui-icon-user" style="font-size:20px;color:#20232A;float:left;margin-left:-23px;color:#12ADA9"></i>
+                                    <input type="text" name="LoginPhone" required lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input" id="LoginPhone" style="border:none;margin-top:-10px;border-bottom:1px solid #c1c1c1">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <i class="layui-icon layui-icon-password" style="font-size:20px;color:#20232A;float:left;margin-top:60px;margin-left:-23px;color:#12ADA9"></i>
+                                    <input type="text" name="LoginPass" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input" id="LoginPass" style="border: none;border-bottom: 1px solid #c1c1c1;width:300px;margin-top:50px">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <i class="layui-icon layui-icon-auz" style="font-size:20px;color:#20232A;float:left;margin-top:60px;margin-left:-23px;color:#12ADA9"></i>
+                                    <input type="text" name="LoginCode" required lay-verify="required" placeholder="请输入验证码" autocomplete="off" class="layui-input" id="LoginCode" style="border: none;border-bottom: 1px solid #c1c1c1;width:300px;margin-top:50px">
+                                    <img src="/Hands/GetValidateImage" id="valiCode" placeholder="请输入验证码" alt="Alternate Text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input id="btnAdd" type="button" value="登录" class="layui-btn" lay-submit lay-filter="formDemo" />
+                                </td>
+                            </tr>
+                        </table>
+                        <div style="width:300px;height:400px;float:left;margin-left:390px;margin-top:-320px;background-color:white;border-left: 1px dashed #C1C1C1">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <label style="font-size:20px;float:left;margin-left:50px;color:#4a4a4a">还没有账号:</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a style="font-size:15px;float:left;margin-left:50px;margin-top:60px;color:#12ADA9" href="/Hands/UserZhuCe">立即注册</a>
+                                        <a>
+                                            <i class="layui-icon layui-icon-add-circle" style="font-size:20px;float:left;margin-left:50px;margin-top:59px;color:#12ADA9"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label style="font-size:20px;float:left;margin-top:60px;margin-left:50px;color:#4a4a4a">使用第三方登陆:</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <i class="layui-icon layui-icon-login-qq" style="font-size:25px;float:left;margin-left:50px;margin-top:59px;color:#12ADA9"></i>
+                                        <i class="layui-icon layui-icon-login-wechat" style="font-size:25px;float:left;margin-left:50px;margin-top:59px;color:#12ADA9"></i>
+                                        <i class="layui-icon layui-icon-login-weibo" style="font-size:25px;float:left;margin-left:50px;margin-top:59px;color:#12ADA9"></i>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="~/layui-v2.5.7/layui/layui.js"></script>
+    <script>
+        $('#btnAdd').on('click', function (data) {
+            var data =
+            {
+                LoginPhone: $('#LoginPhone').val(),
+                LoginCode: $('#LoginCode').val(),
+                LoginPass: $('#LoginPass').val(),
+            };
+
+            $.ajax({
+                url: 'http://localhost:52142/api/Defunct/GetReuslt',
+                type: 'post',
+                //data: data,
+                data: JSON.stringify(data),
+                dataType: 'json',
+                contentType: "application/json",//跨域
+                success: function (d) {
+                    if (d > 0) {
+                        alert('登录成功');
+                            
+
+                    }
+                    else if (d == -1) {
+                        alert("登录失败");
+                    }
+                    else if (d == -3) {
+                        alert('验证码错误');
+                        $('#valiCode').click();
+                        $('#LoginCode').val("").focus();
+                    }
+                }
+            })
+        });
+        $(function () {
+            $('#valiCode').click(function () {
+                var now = new Date();
+                this.src = "http://localhost:52142/api/Defunct/GetValidateImage?time=" + now.getTime();
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+

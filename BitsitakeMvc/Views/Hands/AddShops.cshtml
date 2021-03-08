@@ -1,0 +1,433 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AddShops</title>
+    <link href="~/layui-v2.5.7/layui/css/layui.css" rel="stylesheet" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/js/jquery.unobtrusive-ajax.js"></script>
+</head>
+<body>
+
+    <div style="width:1600px;height:1000px;margin-top:50px;">
+        <a style="margin-left:50px;">商品管理</a>
+        <a>/添加商品</a>
+        <div class="layui-tab layui-tab-card">
+            <ul class="layui-tab-title">
+                <li class="layui-this">商品信息</li>
+                <li>商品属性</li>
+                <li>商品图片</li>
+                <li>商品说明</li>
+
+            </ul>
+            <div class="layui-tab-content" style="height: 1000px;">
+
+                @* 商品分类 *@
+                <div class="layui-tab-item layui-show">
+                    <form class="layui-form" action="">
+                        <div style="width:1300px;height:400px;">
+
+                            <div style="width:1300px; height: 60px; background-color: whitesmoke; border-bottom: 1px solid #c1c1c1">
+                                <h3>商品分类</h3>
+                                <hr />
+                                <div style="float:left">
+                                    <div style="width:400px;height:300px;margin-top:50px;margin-left:60px;">
+                                        <label>选择一级分类</label>
+                                        <select name="Shop_Sid" lay-verify="required" style="margin-left: 20px; width: 240px; height: 30px;">
+                                            <option value="">选择一级分类选择</option>
+                                            <option value="1">服装</option>
+                                            <option value="2">家电</option>
+                                            <option value="3">零售</option>
+
+
+                                        </select>
+                                    </div>
+
+
+                                </div>
+                                <div style="margin-left:700px;margin-top:-30px;">
+                                    <div style="width:400px;height:300px;margin-top:90px;margin-left:80px;">
+                                        <label>选择二级分类选择</label>
+                                        <select id="Shop_Sid" name="Shop_Sid" lay-verify="required" style="margin-left: 20px; width: 240px; height: 30px;">
+                                            <option value="">选择二级分类选择</option>
+                                            <option value="1">男装</option>
+                                            <option value="2">女装</option>
+                                            <option value="3">童装</option>
+                                        </select>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div style="width:1300px;height:400px;">
+                            <div style="width:1300px; height: 60px; background-color: whitesmoke; border-bottom: 1px solid #c1c1c1">
+                                <h3>基本信息</h3>
+                                <hr />
+                                <div style="float:left">
+                                    <div style="width:400px;height:300px;margin-top:50px;margin-left:60px;">
+
+                                        <div style="margin-top:50px;">
+                                            <label style="margin-left:20px;">商品编号</label>
+                                            <input id="ShopCoutID" type="text" name="ShopCoutID" required lay-verify="required" placeholder="请输入标题" autocomplete="off" style="width:240px;height:30px;margin-left:20px;">
+                                        </div>
+
+                                        <div style="margin-top: 50px">
+                                            <label style="margin-left:20px;">商品名称</label>
+                                            <input id="ShopName" type="text" name="ShopName" required lay-verify="required" placeholder="请输入标题" autocomplete="off" style="width:240px;height:30px;margin-left:20px;">
+                                        </div>
+
+                                        <div style="margin-top: 50px">
+                                            <label style="margin-left:20px;">商品品牌</label>
+                                            <select id="Shop_Pid" name="Shop_Pid" lay-verify="required" style="margin-left:20px;width:240px;height:30px;">
+                                                <option value="1">Nike</option>
+                                                <option value="2">Adidas</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div style="margin-left:700px;margin-top:-30px;">
+                                    <div style="width:400px;height:300px;margin-top:90px;margin-left:80px;">
+                                        <div style="margin-top:50px;">
+                                            <label style="margin-left:20px;">上架时间</label>
+                                            <input type="text" id="test1" name="Shopdate" placeholder="yyyy-MM-dd" style="width:240px;height:30px;margin-left:20px;">
+                                        </div>
+
+                                        <div style="margin-top: 50px">
+                                            <label style="margin-left:20px;">商品价格</label>
+                                            <input id="Shop_Clear" type="text" name="Shop_Clear" required lay-verify="required" placeholder="请输入标题" autocomplete="off" style="width:240px;height:30px;margin-left:20px;">
+                                        </div>
+                                        <div style="margin-top: 50px">
+                                            <label style="margin-left:20px;">库存预警值</label>
+                                            <input id="ShopKuState" type="text" name="ShopKuState" required lay-verify="required" placeholder="请输入标题" autocomplete="off" style="width:240px;height:30px;margin-left:16px;">
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <input id="btnAdd" type="button" value="立即提交" class="layui-btn" lay-submit lay-filter="formDemo" />
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </form>
+
+                </div>
+                @* 商品属性 *@
+
+                <div class="layui-tab-item">
+                    <form class="layui-form" action="">
+                        <div style="width:1300px; height: 60px; background-color: whitesmoke; border-bottom: 1px solid #c1c1c1">
+                            <h3>商品属性</h3>
+                            <hr />
+                            <div>
+                                <div style="width:400px;height:100px;margin-top:60px;">
+                                    <label>商品名称</label>
+                                    <select id="Fname" name="Fname" lay-verify="required" style="margin-left: 20px; width: 240px; height: 30px;">
+                                        <option value="0">-请选择-</option>
+                                        <option value="0">鞋</option>
+                                        <option value="0">玩具</option>
+
+                                    </select>
+                                </div>
+                                @* 商品规格 *@
+                                <div style="width:1000px;height:500px">
+                                    <div>
+                                        <h3>商品规格</h3>
+                                        <div>
+
+                                            <label class="layui-form-label">尺码</label>
+                                            <input type="radio" id="Size" name="Size" value="1" title="S">
+                                            <input type="radio" id="Size" name="Size" value="2" title="M" checked>
+                                            <input type="radio" id="Size" name="Size" value="3" title="L">
+                                            <input type="radio" id="Size" name="Size" value="4" title="XL">
+                                        </div>
+                                        <div>
+
+                                            <label class="layui-form-label" style="margin-left:-110px;">颜色</label>
+                                            <input type="radio" id="Color" name="Color" value="1" title="黑色">
+                                            <input type="radio" id="Color" name="Color" value="2" title="红色" checked>
+                                            <input type="radio" id="Color" name="Color" value="3" title="白色">
+                                            <input type="radio" id="Color" name="Color" value="4" title="蓝色">
+                                        </div>
+                                        <div>
+
+                                            <label class="layui-form-label" style="margin-left:-110px;">库存</label>
+                                            <input id="Kucun" type="text" name="Kucun" required lay-verify="required" autocomplete="off" style="width:240px;height:30px;margin-left:16px;">
+                                        </div>
+
+                                        <input id="btnSouAd" type="button" class="layui-btn" style="margin-top:20px;margin-left:-50px;" value="添加" />
+                                        <table class="layui-hide" id="test" lay-filter="test"></table>
+                                        <script type="text/html" id="barDemo">
+
+                                            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" style="width:90px;">删除</a>
+                                        </script>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="layui-tab-item">
+
+                    <button type="button" class="layui-btn" id="test4">
+                        <i class="layui-icon">&#xe67c;</i>上传图片
+                    </button>
+                    <div class="layui-upload-list">
+                        <img class="layui-upload-img" style="height:200px;width:200px" id="demo1">
+                        <p id="deomText"></p>
+                    </div>
+                    <button type="button" class="layui-btn" id="test5">
+                        <i class="layui-icon">&#xe67c;</i>上传
+                    </button>
+                </div>
+
+
+                <div class="layui-tab-item">
+
+                    <h3>商品说明</h3>
+                    <hr />
+                    <div class="layui-input-block" style="margin-top:50px;margin-left:-20px;">
+                        <textarea placeholder="请输入商品说明" class="layui-textarea" name="Texplain" id="Texplain"></textarea>
+                    </div>
+                    <input id="btnSays" type="button" value="立即提交" class="layui-btn" lay-submit lay-filter="formDemo" />
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+ 
+    <script src="~/layui-v2.5.7/layui/layui.js"></script>
+    <script>
+        layui.use('element', function () {
+            var element = layui.element;
+
+            //获取hash来切换选项卡，假设当前地址的hash为lay-id对应的值
+            var layid = location.hash.replace(/^#test1=/, '');
+            element.tabChange('test1', layid); //假设当前地址为
+
+            //监听Tab切换，以改变地址hash值
+            element.on('tab(test1)', function () {
+                location.hash = 'test1=' + this.getAttribute('lay-id');
+            });
+        });
+        layui.use('form', function () {
+            var form = layui.form;
+
+
+        });
+        layui.use('laydate', function () {
+            var laydate = layui.laydate;
+            var uploadInst = layui.uploadInst;
+            //常规用法
+            laydate.render({
+                elem: '#test1'
+            });
+        });
+        $('#test5').on('click', function (data) {
+            alert('上传成功');
+        })
+        //添加提交
+        $('#btnAdd').on('click', function (data) {
+            var data =
+            {
+                ShopCoutID: $('#ShopCoutID').val(),
+                ShopName: $('#ShopName').val(),
+                Shop_Pid: $('#Shop_Pid').val(),
+                Shopdate: $('#test1').val(),
+                Shop_Clear: $('#Shop_Clear').val(),
+
+                Shop_Sid: $('#Shop_Sid').val(),
+                ShopKuState: $('#ShopKuState').val(),
+            };
+            $.ajax({
+                url: 'http://localhost:52142/api/Defunct/AddShops',
+                type: 'post',
+                //data: data,
+                data: JSON.stringify(data),
+                dataType: 'json',
+                contentType: "application/json",//跨域
+                success: function (d) {
+                    if (d > 0) {
+                        alert('成功');
+                    }
+                    else {
+                        alert('失败');
+                    }
+                }
+            })
+        });
+    </script>
+    <script>
+        layui.use('table', function () {
+            var table = layui.table;
+
+            table.render({
+                elem: '#test'
+                , url: 'http://localhost:52142/api/Defunct/GetFens'
+                , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                , cols: [[
+                    {
+                        field: 'Size', width: 150, title: '尺码',
+
+                        templet: function (item) {
+                            if (item.Size == '1') {
+                                return "M";
+                            } else if (item.Size == '2') {
+                                return "L";
+                            } else if (item.Size == '3') {
+                                return "XL";
+                            } else {
+                                return "";
+                            }
+                        }
+                    }
+                    , {
+                        field: 'Color', width: 150, title: '颜色',
+                        templet: function (item) {
+                            if (item.Size == '1') {
+                                return "蓝色";
+                            } else if (item.Size == '2') {
+                                return "黑色";
+                            } else if (item.Size == '3') {
+                                return "XL";
+                            } else {
+                                return "";
+                            }
+                        }
+                    }
+                    , { field: 'Shop_Clear', width: 150, title: '价格' }
+                    , { field: 'Shop_Unit', title: '库存预警值', width: 150 }
+                    , { field: 'ShoId', title: 'SKU编号', width: 150 }
+                    , { width: 150, title: '操作', toolbar: '#barDemo' }
+                ]]
+            });
+            table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+                var data = obj.data //获得当前行数据
+
+                if (obj.event === 'del') {
+                    layer.confirm('真的删除行么', function () {
+                        $.ajax({
+                            url: 'http://localhost:52142/api/Defunct/Deltext?id=' + data.Fid,
+                            type: 'post',
+                            dataType: 'json',
+                            contentType: "application/json",//跨域
+                            success: function (result) {
+                                if (result > 0) {
+                                    alert('删除成功');
+                                    location.reload();
+                                }
+                                else {
+                                    alert('删除失败');
+                                }
+                            }
+                        })
+                    })
+
+                }
+
+            });
+
+            $('#btnSouAd').on('click', function (data) {
+                var sex = document.getElementsByName("Color");//不能getElementById，ById又只会读数组第一个值
+                var sexid;
+                for (var i = 0; i < sex.length; i++) {
+                    if (sex[i].checked)
+                        sexid = i;
+                }
+                var data =
+                {
+                    Fname: $('#Fname').val(),
+                    Size: $('#Size').val(),
+                    sexid: $('#Color').val(),
+                    Kucun: $("Kucun").val(),
+
+                };
+                $.ajax({
+                    url: 'http://localhost:52142/api/Defunct/AddOnTe',
+                    type: 'post',
+                    //data: data,
+                    data: JSON.stringify(data),
+                    dataType: 'json',
+                    contentType: "application/json",//跨域
+                    success: function (d) {
+                        if (d > 0) {
+                            alert('成功');
+                        }
+                        else {
+                            alert('失败');
+                        }
+                    }
+                })
+            });
+            $('#btnSays').on('click', function (data) {
+                var data =
+                {
+                    Texplain: $('#Texplain').val(),
+                };
+                $.ajax({
+                    url: 'http://localhost:52142/api/Defunct/AddOnTe',
+                    type: 'post',
+                    //data: data,
+                    data: JSON.stringify(data),
+                    dataType: 'json',
+                    contentType: "application/json",//跨域
+                    success: function (d) {
+                        if (d > 0) {
+                            alert('成功');
+                        }
+                        else {
+                            alert('失败');
+                        }
+                    }
+                })
+            });
+        });
+    </script>
+
+
+
+    <script>
+        layui.use('upload', function () {
+            var upload = layui.upload;
+            var $ = layui.jquery;
+            //执行实例
+            var uploadInst = upload.render({
+                elem: '#test4' //绑定元素
+                , url: 'http://localhost:52142/api/Defunct/UploadImg' //上传接口
+                , before: function (obj) {
+                    //上传完毕回调
+                    obj.preview(function (index, file, result) {
+                        $('#demo1').attr('src', result); //图片链接（base64）
+                    });
+                },
+                done: function (res) {
+                    if (res.result) {
+
+                    }
+                }
+                , error: function () {
+                    var deomText = $('#deomText');
+                    demoText.Html('<span style="color:#FF5722;">上传失败</span>')
+                    deomText.find('.demo-reload').on('click', function () {
+                        uploadInst.upload();
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+
+    <link href="~/layui-v2.5.7/layui/css/layui.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div style="height:50px;background-color:black">
+        <strong><label style="color: #12ADA9;font-size: 25px;float:left;margin-left:150px;margin-top:8px">ERP管理系统</label></strong>
+
+    </div>
+
+    <ul class="layui-nav layui-nav-tree" lay-filter="test" style="width:200px;height:890px">
+        <li class="layui-nav-item layui-nav-itemed">
+            <a href="javascript:;" iframe="0">基础信息</a>
+            <dl class="layui-nav-child">
+                <dd><a href="javascript:;" iframe="1">系统首页</a></dd>
+                <dd><a href="javascript:;" iframe="1">个人信息</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item ShangPin">
+            <a href="javascript:;" iframe="0">商品管理</a>
+            <dl class="layui-nav-child">
+                <dd><a href="javascript:;" iframe="1">商品列表</a></dd>
+                <dd><a href="javascript:;" iframe="1">添加商品</a></dd>
+                <dd><a href="javascript:;" iframe="1">商品分类编辑</a></dd>
+                <dd><a href="javascript:;" iframe="1">商品价格表</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item ShuJu">
+            <a href="javascript:;" iframe="0">数据报表</a>
+            <dl class="layui-nav-child">
+                <dd><a href="javascript:;" iframe="1">订单报表</a></dd>
+                <dd><a href="javascript:;" iframe="1">销售报表</a></dd>
+                <dd><a href="javascript:;" iframe="1">财务报表</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item CaiGou">
+            <a href="javascript:;" iframe="0">采购管理</a>
+            <dl class="layui-nav-child">
+                <dd><a href="javascript:;" iframe="1">供应商管理</a></dd>
+                <dd><a href="javascript:;" iframe="1">请购单管理</a></dd>
+                <dd><a href="javascript:;" iframe="1">采购单管理</a></dd>
+                <dd><a href="javascript:;" iframe="1">退货单管理</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item CangKu">
+            <a href="javascript:;" iframe="0">仓库管理</a>
+            <dl class="layui-nav-child">
+                <dd><a href="javascript:;" iframe="1">入库管理</a></dd>
+                <dd><a href="javascript:;" iframe="1">出库管理</a></dd>
+                <dd><a href="javascript:;" iframe="1">仓储管理</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item QuanXian">
+            <a href="javascript:;" iframe="0">授权管理</a>
+            <dl class="layui-nav-child">
+                <dd><a href="javascript:;" iframe="1">员工管理</a></dd>
+                <dd><a href="javascript:;" iframe="1">公司架构</a></dd>
+                <dd><a href="javascript:;" iframe="1">权限分配</a></dd>
+            </dl>
+        </li>
+    </ul>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;">
+            <div style="width:756px;height:150px;float:left;margin-left:170px;margin-top:50px;border-bottom:1px solid #c1c1c1;border-left:1px solid #c1c1c1;border-top:1px solid #c1c1c1;border-right:1px solid #c1c1c1">
+                <div style="height:45px;background-color:whitesmoke;border-bottom:1px solid #c1c1c1">
+                    <strong><label style="font-size:15px;float:left;margin-left:25px;margin-top:11px">运营快捷入口</label></strong>
+                </div>
+                <div style="height:105px;width:125px;float:left;border-right:1px solid #c1c1c1">
+                    <i class="layui-icon layui-icon-add-circle" style="color: #12ADA9;font-size:50px;float:left;margin-left:35px;margin-top:15px"><br /></i>
+                    <a style="float:left;margin-left:30px;margin-top:5px;font-size:15px">添加商品</a>
+                </div>
+                <div style="height:105px;width:125px;float:left;border-right:1px solid #c1c1c1">
+                    <i class="layui-icon layui-icon-list" style="color: #12ADA9;font-size:55px;float:left;margin-left:35px;margin-top:15px"><br /></i>
+                    <a style="float:left;margin-left:30px;font-size:15px">商品列表</a>
+                </div>
+                <div style="height:105px;width:125px;float:left;border-right:1px solid #c1c1c1">
+                    <i class="layui-icon layui-icon-user" style="color: #12ADA9;font-size:50px;float:left;margin-left:35px;margin-top:15px"><br /></i>
+                    <a style="float:left;margin-left:30px;margin-top:5px;font-size:15px">供应商审核</a>
+                </div>
+                <div style="height:105px;width:125px;float:left;border-right:1px solid #c1c1c1">
+                    <i class="layui-icon layui-icon-cart" style="color: #12ADA9;font-size:50px;float:left;margin-left:35px;margin-top:15px"><br /></i>
+                    <a style="float:left;margin-left:30px;margin-top:5px;font-size:15px">销售统计</a>
+                </div>
+                <div style="height:105px;width:125px;float:left;border-right:1px solid #c1c1c1">
+                    <svg t="1615118246690" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2197" width="53" height="53" style="float: left; margin-left: 35px; margin-top: 16px"><path d="M842.885223 80.406666h-82.127746v44.877008h82.127746c20.938792 0 37.973227 17.035651 37.973226 37.974443v696.943724c0 20.938792-17.034434 37.973227-37.973226 37.973227H181.112345c-20.938792 0-37.973227-17.034434-37.973227-37.973227V163.256901c0-20.938792 17.034434-37.974443 37.973227-37.974444h82.127746V80.406666H181.112345c-45.757617 0-82.850235 37.093834-82.850235 82.851451v696.943724c0 45.757617 37.093834 82.851451 82.850235 82.851451h661.772878c45.757617 0 82.850235-37.093834 82.850234-82.851451V163.256901c0-45.757617-37.092618-82.850235-82.850234-82.850235z" p-id="2198" fill="#12ADA9"></path><path d="M511.998784 684.306254L354.658019 526.966706l31.693414-31.693414 125.647351 125.646135 125.64735-125.646135 31.692198 31.693414zM261.757408 754.623621h500.485184v44.821057H261.757408z" p-id="2199" fill="#12ADA9"></path><path d="M489.588255 206.004148h44.821057v453.356785h-44.821057z" p-id="2200" fill="#12ADA9"></path></svg>
+                    <a style="float:left;margin-left:30px;margin-top:5px;font-size:15px">商品入库</a>
+                </div>
+                <div style="height:105px;width:125px;float:right;border-right:1px solid #c1c1c1">
+                    <svg t="1615117855570" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1174" width="53" height="53" style="float: left; margin-left: 35px; margin-top: 16px"><path d="M842.369507 80.528297h-82.127746v44.877008h82.127746c20.938792 0 37.973227 17.035651 37.973227 37.974443v696.943724c0 20.938792-17.034434 37.973227-37.973227 37.973227H180.595413c-20.938792 0-37.973227-17.034434-37.973227-37.973227V163.379748c0-20.938792 17.034434-37.974443 37.973227-37.974443h82.127746V80.528297H180.595413c-45.757617 0-82.850235 37.093834-82.850235 82.851451v696.943724c0 45.757617 37.093834 82.851451 82.850235 82.851451h661.772877c45.757617 0 82.850235-37.093834 82.850235-82.851451V163.379748c0.001216-45.757617-37.092618-82.851451-82.849018-82.851451z" p-id="1175" fill="#12ADA9"></path><path d="M511.483068 206.126995l157.339548 157.339548-31.693414 31.693414-125.646134-125.647351-125.647351 125.647351-31.693413-31.693414zM261.240476 754.745252h500.485184v44.821057H261.240476z" p-id="1176" fill="#12ADA9"></path><path d="M489.072539 231.0711h44.821058v453.356785h-44.821058z" p-id="1177" fill="#12ADA9"></path></svg>
+                    <a style="float:left;margin-left:30px;margin-top:5px;font-size:15px">商品出库</a>
+                </div>
+            </div>
+            <div style="width:450px;height:500px;float:left;margin-left:110px;margin-top:50px;border-bottom:1px solid #c1c1c1;border-left:1px solid #c1c1c1;border-top:1px solid #c1c1c1;border-right:1px solid #c1c1c1">
+                <div style="height:45px;background-color:whitesmoke;border-bottom:1px solid #c1c1c1">
+                    <strong><label style="font-size:15px;float:left;margin-left:25px;margin-top:11px">公司公告</label></strong>
+                </div>
+                <table style="font-size:15px">
+                    <tr>
+                        <td style="float:left;margin-left:20px;margin-top:19px"><a>2018年春节放假通知</a><hr style="width:450px;float:left;color:#c1c1c1;margin-left:-20px" /></td>
+                    </tr>
+                    <tr>
+                        <td style="float:left;margin-left:20px;margin-top:12px"><a>2018年春节放假通知</a><hr style="width:450px;float:left;color:#c1c1c1;margin-left:-20px" /></td>
+                    </tr>
+                    <tr>
+                        <td style="float:left;margin-left:20px;margin-top:12px"><a>2018年春节放假通知</a><hr style="width:450px;float:left;color:#c1c1c1;margin-left:-20px" /></td>
+                    </tr>
+                    <tr>
+                        <td style="float:left;margin-left:20px;margin-top:12px"><a>2018年3月7日  公司聚餐</a><hr style="width:450px;float:left;color:#c1c1c1;margin-left:-20px" /></td>
+                    </tr>
+                    <tr>
+                        <td style="float:left;margin-left:20px;margin-top:12px"><a>2018年3月7日  公司聚餐</a><hr style="width:450px;float:left;color:#c1c1c1;margin-left:-20px" /></td>
+                    </tr>
+                    <tr>
+                        <td style="float:left;margin-left:20px;margin-top:12px"><a>2018年3月7日  公司聚餐</a><hr style="width:450px;float:left;color:#c1c1c1;margin-left:-20px" /></td>
+                    </tr>
+                    <tr>
+                        <td style="float:left;margin-left:20px;margin-top:12px"><a>2018年3月7日  公司聚餐</a><hr style="width:450px;float:left;color:#c1c1c1;margin-left:-20px" /></td>
+                    </tr>
+                    <tr>
+                        <td style="float:left;margin-left:20px;margin-top:12px"><a>2018年3月7日  公司聚餐</a><hr style="width:450px;float:left;color:#c1c1c1;margin-left:-20px" /></td>
+                    </tr>
+                </table>
+            </div>
+    
+            <div style="width: 755px;height:300px;float:left;margin-left:170px;margin-top:50px;background-color:coral">
+       
+            </div>
+            <div style="width: 450px;height:300px;float: left;margin-left: 110px;margin-top: 50px;background-color: coral">
+            </div>
+        </div>
+    </div>
+    <div>
+        <iframe id="iframeMain" src="" style="width:100%" ;height="100%">
+        </iframe>
+    </div>
+
+    <script src="~/layui-v2.5.7/layui/layui.js"></script>
+ 
+
+
+
+    <script>
+        //注意：导航 依赖 element 模块，否则无法进行功能性操作
+        layui.use('element', function () {
+            var element = layui.element;
+
+
+        });
+
+        layui.use('element', function () {
+            var element = layui.element;
+
+        
+    
+        });
+    </script>
+
+    <script>
+        //JavaScript代码区域
+        layui.use('element', function () {
+            var $ = layui.jquery
+                , element = layui.element;
+        });
+        //$(".ShangPin").click(function () {
+        //    $("#demoAdmin").attr("src", "/Hands/ShouYe")
+        //});
+        //$(".ShuJu").click(function () {
+        //    $("#demoAdmin").attr("src", "/Hands/ProjectManagement")
+        //});
+        //$(".CaiGou").click(function () {
+        //    $("#demoAdmin").attr("src", "/Hands/FundsManagement")
+        //});
+        //$(".CangKu").click(function () {
+        //    $("#demoAdmin").attr("src", "/Hands/FundsManagement")
+        //});
+        //$(".QuanXian").click(function () {
+
+    </script>
+</body>
+</html>

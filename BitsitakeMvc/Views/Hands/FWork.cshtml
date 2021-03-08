@@ -1,0 +1,102 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>FWork</title>
+    <link href="~/layui-v2.5.7/layui/css/layui.css" rel="stylesheet" />
+</head>
+<body>
+    <style>
+        .btndd {
+            margin-top: 8px;
+        }
+    </style>
+    <script src="~/layui-v2.5.7/layui/layui.js"></script>
+    <div style="width:1600px;height:1000px;margin-top:50px;">
+        <a style="margin-left:50px;">商品管理</a>
+        <a>/商品列表</a>
+
+            <div style="width:1300px;height:100px;border:1px solid #dddddd;margin-top:30px;margin-left:20px;">
+                <div style="width:300px;height:50px;">
+                    <label class="layui-form-label">商品编号</label>
+                    <input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="btndd" />
+                </div>
+                <div style="width:300px;height:50px;margin-left:320px;margin-top:-50px;">
+                    <label class="layui-form-label">商品名称</label>
+                    <input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="btndd" />
+                </div>
+                <div style="width:300px;height:50px;margin-left:640px;margin-top:-50px;">
+                    <label class="layui-form-label">商品品牌</label>
+                    <input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="btndd" />
+                </div>
+                <div style="width:300px;height:50px;margin-left:960px;margin-top:-50px;">
+                    <label class="layui-form-label">商品状态</label>
+                    <input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="btndd" />
+                </div>
+                <button type="button" class="layui-btn layui-btn-normal" style="margin-left:40px;">搜索</button>
+                <button type="button" class="layui-btn">
+                    <i class="layui-icon">&#xe608;</i> 添加
+                </button>
+
+            </div>
+            <table class="layui-hide" id="demo" lay-filter="test"></table>
+        </div>
+
+        <script>
+
+
+            layui.config({
+                version: '1614342655896' //为了更新 js 缓存，可忽略
+            });
+
+            layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element', 'slider'], function () {
+                var laydate = layui.laydate //日期
+                    , laypage = layui.laypage //分页
+                    , layer = layui.layer //弹层
+                    , table = layui.table //表格
+                    , carousel = layui.carousel //轮播
+                    , upload = layui.upload //上传
+                    , element = layui.element //元素操作
+                    , slider = layui.slider //滑块
+
+
+                //监听Tab切换
+                element.on('tab(demo)', function (data) {
+                    layer.tips('切换了 ' + data.index + '：' + this.innerHTML, this, {
+                        tips: 1
+                    });
+                });
+
+                //执行一个 table 实例
+                table.render({
+                    elem: '#demo'
+                    , height: 420
+                    , url: '/demo/table/user/' //数据接口
+                    , title: '用户表'
+                    , page: true //开启分页
+                    , totalRow: true //开启合计行
+                    , cols: [[ //表头
+                        { type: 'checkbox', fixed: 'left' }
+
+                        , { field: 'username', title: '商品编号', width: 100 }
+                        , { field: 'username', title: '商品名称', width: 100 }
+                        , { field: 'username', title: '商品图片', width: 100 }
+                        , { field: 'username', title: '商品价格', width: 100 }
+                        , { field: 'username', title: '商品品牌', width: 100 }
+                        , { field: 'username', title: '商品属性', width: 100 }
+                        , { field: 'username', title: '库存状态', width: 100 }
+                        , { field: 'username', title: '商品状态', width: 100 }
+                        , { fixed: 'right', title: '操作', width: 165, align: 'center', toolbar: '#barDemo' }
+                    ]]
+                });
+            });
+
+        </script>
+</body>
+</html>

@@ -5,8 +5,28 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Hands\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="wwwroot\echarts-5.0.2\.vscode\settings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\echarts-5.0.2\.github\ISSUE_TEMPLATE.md" />
+    <None Include="wwwroot\echarts-5.0.2\.github\pull_request_template.md" />
+    <None Include="wwwroot\echarts-5.0.2\.github\stale.yml" />
+    <None Include="wwwroot\echarts-5.0.2\.github\workflows\nodejs.yml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.3" />
     <PackageReference Include="Microsoft.jQuery.Unobtrusive.Ajax" Version="3.2.6" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="5.0.2" />
+    <PackageReference Include="vue.js" Version="1.0.22" />
+    <PackageReference Include="Vue.Js.Element.UI" Version="2.10.0.1" />
   </ItemGroup>
 
 </Project>

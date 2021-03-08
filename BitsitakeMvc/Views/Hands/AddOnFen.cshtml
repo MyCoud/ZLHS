@@ -1,0 +1,252 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AddOnFen</title>
+    <link href="~/layui-v2.5.7/layui/css/layui.css" rel="stylesheet" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/js/jquery.unobtrusive-ajax.js"></script>
+</head>
+<body>
+    <div style="width:1600px;height:1000px;margin-top:50px;">
+        <a style="margin-left:50px;">商品管理</a>
+        <a>/编辑商品分类</a>
+        <hr />
+        <div class="demoTable">
+            <input id="Names" type="text" name="Fname" placeholder="请输入属性名" autocomplete="off" style="width:240px;height:30px;margin-left:20px;">
+            <input class="layui-btn" data-type="reload" value="搜索" style="width:70px;">
+        </div>
+        <div class="site-demo-button" id="layerDemo" style="margin-left:340px;margin-top:-38px;">
+            <button data-method="offset" data-type="auto" class="layui-btn layui-btn-normal">添加</button>
+        </div>
+        <div id="adds" style="padding: 20px 100px;display:none;">
+            <label> 属性组名称</label>
+            <input id="Fname" type="text" name="Fname" required lay-verify="required" placeholder="请输入标题" autocomplete="off" style="width:240px;height:30px;margin-left:20px;">
+            </br>
+            </br>
+            </br>
+            <label> 包含属性</label>
+            <textarea id="FNameEass" name="FNameEass" placeholder="请输入内容" class="layui-textarea" style="margin-left:87px;width:440px;height:220px;"></textarea>
+            <input id="bfind" type="button" class="layui-btn layui-btn-normal" value="添加" style="margin-top:30px;margin-left:180px;">
+
+        </div>
+
+
+        <table class="layui-hide" id="test" lay-filter="test"></table>
+        <script type="text/html" id="barDemo">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </script>
+        <script src="~/layui-v2.5.7/layui/layui.js"></script>
+        <script>
+            layui.use('layer', function () { //独立版的layer无需执行这一句
+                var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+
+                //触发事件
+                var active = {
+                    offset: function (othis) {
+                        var type = othis.data('type')
+                            , text = othis.text();
+                        layer.open({
+                            type: 1
+                            , offset: type //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
+
+                            , id: 'layerDemo' + type //防止重复弹出
+                            , content: $("#adds")
+                            , area: ['880px', '500px']
+                            , btnAlign: 'c' //按钮居中
+                            , shade: 0 //不显示遮罩
+                            , yes: function () {
+                                layer.closeAll();
+                            }
+
+                        });
+                    }
+                };
+                $('#layerDemo .layui-btn').on('click', function () {
+                    var othis = $(this), method = othis.data('method');
+                    active[method] ? active[method].call(this, othis) : '';
+                });
+
+                $('#bfind').on('click', function (data) {
+                    var data =
+                    {
+                        Fname: $('#Fname').val(),
+                        FNameEass: $('#FNameEass').val(),
+                    };
+                    $.ajax({
+                        url: 'http://localhost:52142/api/Defunct/AddFens',
+                        type: 'post',
+                        //data: data,
+                        data: JSON.stringify(data),
+                        dataType: 'json',
+                        contentType: "application/json",//跨域
+                        success: function (d) {
+                            if (d > 0) {
+                                alert('添加成功');
+                                location.reload();
+                            }
+                            else {
+                                alert('失败');
+                            }
+                        }
+                    })
+                });
+            });
+            layui.use(['table', 'laypage', 'form'], function () {
+                var table = layui.table;
+                var laydate = layui.laydate //日期
+                    , layer = layui.layer//弹层
+                    , laypage = layui.laypage//分页
+                    , form = layui.form;
+                table.render({
+                    page: true
+                    , id: 'testReload'
+                    , elem: '#test'
+                    , url: 'http://localhost:52142/api/Defunct/GetToFens'
+                    , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                    , cols: [[
+                        { field: 'Fid', width: 300, title: '属性Id' }
+                        , { field: 'Fname', width: 300, title: '属性组名称' }
+                        , { field: 'FNameEass', width: 300, title: '包含属性' }
+                        , { width: 500, title: '操作', toolbar: '#barDemo' }
+                    ]]
+
+                });
+
+                var $ = layui.$, active = {
+                    reload: function () {
+                        var Names = $('#Names');
+                        //执行重载
+                        table.reload('testReload', {
+                            page: {
+                                curr: 1 //重新从第 1 页开始
+                            }
+                            , where: {
+                                Fname: Names.val()
+                            }
+                        }, 'data');
+                    }
+                };
+                $('.demoTable .layui-btn').on('click', function () {
+                    var type = $(this).data('type');
+                    active[type] ? active[type].call(this) : '';
+                });
+
+                //根据姓名查询(ajax提交)
+                table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+                    var data = obj.data //获得当前行数据
+
+                    if (obj.event === 'del') {
+                        layer.confirm('真的删除行么', function () {
+                            $.ajax({
+                                url: 'http://localhost:52142/api/Defunct/DelToFens?id=' + data.Fid,
+                                type: 'post',
+                                dataType: 'json',
+                                contentType: "application/json",//跨域
+                                success: function (result) {
+                                    if (result > 0) {
+                                        alert('删除成功');
+                                        location.reload();
+                                    }
+                                    else {
+                                        alert('删除失败');
+                                    }
+                                }
+                            })
+                        })
+                    }
+                    else if (obj.event === 'edit') {
+                        layer.open({
+                            //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                            type: 1,
+                            title: "修改信息"
+                            , content: $("#popUpdateTest")//引用的弹出层的页面层的方式加载修改界面表单
+                            , area: ['880px', '500px']
+                            , btnAlign: 'c' //按钮居中
+                            , shade: 0 //不显示遮罩
+                            , yes: function () {
+                                layer.closeAll();
+                            }
+                        });
+                        $.ajax({
+                            url: 'http://localhost:52142/api/Defunct/SeleToFenId?id=' + data.Fid,
+                            type: "get",
+                            dataType: 'json',
+                            contentType: "application/json",//跨域
+                            success: function (data) {
+                                console.log(data)
+                                form.val('example', {
+                                    "Fname": data.fname,
+                                    "FNameEass": data.fNameEass,
+                                    "Fid": data.fid
+                                })
+
+                            }
+
+                        });
+
+                        //动态向表传递赋值可以参看文章进行修改界面的更新前数据的显示，当然也是异步请求的要数据的修改数据的获取
+
+
+
+                    }
+                });
+            });
+
+        </script>
+        <div class="layui-row" id="popUpdateTest" style="padding: 20px 100px;display:none;">
+            <div class="layui-col-md10">
+
+                <form class="layui-form" action="" lay-filter="example" style="margin-top:20px">
+                    <input id="Id" type="hidden" name="Fid" />
+                    <label> 属性组名称</label>
+                    <input id="Fnames" type="text" name="Fname" required lay-verify="required" placeholder="请输入标题" autocomplete="off" style="width:240px;height:30px;margin-left:20px;">
+                    </br>
+                    </br>
+                    </br>
+                    <label> 包含属性</label>
+                    <textarea id="FNameEasss" name="FNameEass" placeholder="请输入内容" class="layui-textarea" style="margin-left:87px;width:440px;height:220px;"></textarea>
+                    <input id="bianZwy" type="button" class="layui-btn layui-btn-normal" value="编辑" style="margin-top:30px;margin-left:180px;">
+                </form>
+            </div>
+        </div>
+    </div>
+        <script>
+
+            $('#bianZwy').on('click', function (data) {
+                var data =
+                {
+                    Fid: $("#Id").val(),
+                    Fname: $('#Fnames').val(),
+                    FNameEass: $('#FNameEasss').val(),
+
+                };
+                console.log(data)
+                $.ajax({
+                    url: 'http://localhost:52142/api/Defunct/EditToFens',
+                    type: 'post',
+                    //data: data,
+                    data: JSON.stringify(data),
+                    dataType: 'json',
+                    contentType: "application/json",//跨域
+                    success: function (d) {
+                        if (d > 0) {
+                            alert('修改成功');
+                            location.reload();
+                        }
+                        else {
+                            alert('修改失败');
+                        }
+                    }
+                })
+            });
+        </script>
+</body>
+</html>

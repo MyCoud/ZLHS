@@ -1,0 +1,251 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+
+    <link href="~/layui-v2.5.7/layui/css/layui.css" rel="stylesheet" />
+    <script src="~/echarts-5.0.2/dist/echarts.min.js"></script>
+</head>
+
+<body>
+
+    <div style="width:1600px;">
+
+        <div class="layui-header" style="width:1600px;height:50px">
+            <div style="height:50px;background-color:black">
+                <strong><label style="color: #12ADA9;font-size: 25px;float:left;margin-left:20px;margin-top:8px">ERP管理系统</label></strong>
+
+            </div>
+
+            <div class="layui-layer layui-layer-page layui-anim layui-anim-rl layui-layer-adminRight" id="layui-layer3" type="page" times="3" showtime="0" contype="string" style="z-index:19891017;width:300px;top:25px;left:1236px">
+                <div id="LAY_adminPopupTheme" class="layui-layer-content">
+
+
+                </div>
+            </div>
+        </div>
+        <ul class="layui-nav layui-nav-tree" lay-filter="test" style="width:200px;height:990px;margin-top:-8px">
+
+            <li class="layui-nav-item layui-nav-itemed">
+                <a href="javascript:;" iframe="0">基础信息</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="/Hands/Show" target="qwer">系统首页</a></dd>
+                    <dd><a href="javascript:;" iframe="1">个人信息</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item ShangPin">
+                <a href="javascript:;" iframe="0">商品管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a target="qwer" href="/Hands/FWork">商品列表</a></dd>
+                    <dd><a href="/Hands/AddShops" target="qwer">添加商品</a></dd>
+                    <dd><a href="/Hands/AddOnFen" target="qwer">商品分类编辑</a></dd>
+                    <dd><a href="/Hands/SaxPrice" target="qwer">商品价格表</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item ShuJu">
+                <a href="javascript:;" iframe="0">数据报表</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;" iframe="1">订单报表</a></dd>
+                    <dd><a href="javascript:;" iframe="1">销售报表</a></dd>
+                    <dd><a href="javascript:;" iframe="1">财务报表</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item CaiGou">
+                <a href="javascript:;" iframe="0">采购管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;" iframe="1">供应商管理</a></dd>
+                    <dd><a href="javascript:;" iframe="1">请购单管理</a></dd>
+                    <dd><a href="javascript:;" iframe="1">采购单管理</a></dd>
+                    <dd><a href="javascript:;" iframe="1">退货单管理</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item CangKu">
+                <a href="javascript:;" iframe="0">仓库管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;" iframe="1">入库管理</a></dd>
+                    <dd><a href="javascript:;" iframe="1">出库管理</a></dd>
+                    <dd><a href="javascript:;" iframe="1">仓储管理</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item QuanXian">
+                <a href="javascript:;" iframe="0">授权管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;" iframe="1">员工管理</a></dd>
+                    <dd><a href="javascript:;" iframe="1">公司架构</a></dd>
+                    <dd><a href="javascript:;" iframe="1">权限分配</a></dd>
+                </dl>
+            </li>
+        </ul>
+        <div class="layui-body" style="overflow:hidden;height:1000px">
+            <!-- 内容主体区域 -->
+
+            <div>
+                <iframe id="iframeMain" name="qwer" style="width:1600px;height:1000px;">
+                </iframe>
+            </div>
+        </div>
+    </div>
+    <script src="~/layui-v2.5.7/layui/layui.js"></script>
+    <script type="text/javascript" src="js/echarts.js"></script>
+    <script>
+        //注意进度条依赖 element 模块，否则无法进行正常渲染和功能性操作
+        layui.use('element', function () {
+            var element = layui.element;
+        });
+    </script>
+
+    <script>
+        layui.config({
+            base: './dist/' //指定 layuiAdmin 项目路径
+            , version: '1.6.0'
+        }).use('index', function () {
+            var layer = layui.layer, admin = layui.admin;
+            layer.ready(function () {
+                admin.popup({
+                    content: '单页面专业版默认未开启“多标签”功能，实际运用时，你可以自定义是否开启'
+                    , area: '300px'
+                    , shade: false
+                });
+            });
+        });
+    </script>
+
+    <script>
+        layui.data.theme = function () {
+            layui.use('form', function () {
+                var form = layui.form
+                    , admin = layui.admin;
+
+                //监听隐藏开关
+                form.on('switch(system-theme-sideicon)', function () {
+                    admin.theme({
+                        hideSideIcon: this.checked
+                    })
+                });
+            });
+        };
+    </script>
+
+
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+
+        // 指定图表的配置项和数据
+        var option = {
+            xAxis: {
+                type: 'category',
+                boundaryGap: false
+            },
+            yAxis: {
+                type: 'value',
+                boundaryGap: [0, '30%']
+            },
+            visualMap: {
+                type: 'piecewise',
+                show: false,
+                dimension: 0,
+                seriesIndex: 0,
+                pieces: [{
+                    gt: 1,
+                    lt: 3,
+                    color: 'rgba(0, 0, 180, 0.4)'
+                }, {
+                    gt: 5,
+                    lt: 7,
+                    color: 'rgba(0, 0, 180, 0.4)'
+                }]
+            },
+            series: [
+                {
+                    type: 'line',
+                    smooth: 0.6,
+                    symbol: 'none',
+                    lineStyle: {
+                        color: '#5470C6',
+                        width: 6
+                    },
+                    markLine: {
+                        symbol: ['none', 'none'],
+                        label: { show: false },
+                        data: [
+                            { xAxis: 1 },
+                            { xAxis: 3 },
+                            { xAxis: 5 },
+                            { xAxis: 7 }
+                        ]
+                    },
+                    areaStyle: {},
+                    data: [
+                        ['2019-10-10', 200],
+                        ['2019-10-11', 560],
+                        ['2019-10-12', 750],
+                        ['2019-10-13', 580],
+                        ['2019-10-14', 250],
+                        ['2019-10-15', 300],
+                        ['2019-10-16', 450],
+                        ['2019-10-17', 300],
+                        ['2019-10-18', 100]
+                    ]
+                }
+            ]
+        };
+
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+
+
+
+
+    <script>
+        //注意：导航 依赖 element 模块，否则无法进行功能性操作
+        layui.use('element', function () {
+            var element = layui.element;
+
+
+        });
+
+        layui.use('element', function () {
+            var element = layui.element;
+
+            //一些事件监听
+            element.on('tab(demo)', function (data) {
+                console.log(data);
+            });
+        });
+    </script>
+
+    <script>
+        //JavaScript代码区域
+        layui.use('element', function () {
+            var $ = layui.jquery
+                , element = layui.element;
+        });
+                //$(".ShangPin").click(function () {
+                //    $("#demoAdmin").attr("src", "/Hands/ShouYe")
+                //});
+                //$(".ShuJu").click(function () {
+                //    $("#demoAdmin").attr("src", "/Hands/ProjectManagement")
+                //});
+                //$(".CaiGou").click(function () {
+                //    $("#demoAdmin").attr("src", "/Hands/FundsManagement")
+                //});
+                //$(".CangKu").click(function () {
+                //    $("#demoAdmin").attr("src", "/Hands/FundsManagement")
+                //});
+                //$(".QuanXian").click(function () {
+                //    $("#demoAdmin").attr("src", "/Hands/FundsManagement")
+                //});
+    </script>
+</body>
+</html>
