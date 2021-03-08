@@ -9,13 +9,17 @@ namespace bitModel
     {
 
 
-        public int ShoId { get; set; }//ID
+        public int ShopId { get; set; }//ID
         public int ShopCoutID { get; set; }//商品编号
         public string ShopName { get; set; }//商品名称
         public int Shop_Tid { get; set; }//商品图片
         public int Shop_Pid { get; set; }//商品品牌
+        public string Name { get; set; } //外键商品品牌名
 
         public int Shop_Sid { get; set; }//商品属性
+
+        public string Fname        { get; set; } //外键商品分类
+
         public string ShopKuState { get; set; }//库存状态
         public int ShopSpState        { get; set; }//商品状态
         public DateTime Shopdate { get; set; }//商品上架时间

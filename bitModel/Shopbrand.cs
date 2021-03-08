@@ -9,7 +9,7 @@ namespace bitModel
     {
         public int Fid
         { get; set; }
-        public int Fname
+        public string Name
         { get; set; }//商品品牌
     }
 }

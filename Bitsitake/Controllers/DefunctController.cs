@@ -105,6 +105,13 @@ namespace Bitsitake.Controllers
             return bll.Addtext(s);
         }
         [EnableCors("kuayu")]
+        [HttpPost("Deltext")]
+        //删除商品属性
+        public int Deltext(int id)
+        {
+            return bll.Deltext(id);
+        }
+        [EnableCors("kuayu")]
         [HttpPost("Zhuce")]
         //注册
         public int Zhuce([FromBody] PLogins s)
@@ -174,5 +181,87 @@ namespace Bitsitake.Controllers
             };
             return Ok(JsonConvert.SerializeObject(data));
         }
+        [EnableCors("kuayu")]
+        [HttpPost("AddFens")]
+        //商品分类编辑
+        public int AddFens([FromBody]ShopFen s)
+        {
+            return bll.AddFens(s);
+        }
+        [EnableCors("kuayu")]
+        [HttpGet("GetToFens")]
+        //获取商品分类编辑
+        public object GetToFens(int Page=1,int PageSize = 10,string Fname="")
+        {
+            var data1 = bll.GetToFens(Fname);
+            var data = new
+            {
+                code = 0,
+                msg = "",
+                count = data1.Count(),
+                data = data1.Skip((Page - 1) * PageSize).Take(PageSize).ToList(),
+            };
+            return Ok(JsonConvert.SerializeObject(data));
+        }
+        [EnableCors("kuayu")]
+        [HttpPost("DelToFens")]
+        //删除商品属性
+        public int DelToFens(int id)
+        {
+            return bll.DelToFens(id);
+        }
+        [EnableCors("kuayu")]
+        [HttpPost("EditToFens")]
+        //编辑商品
+        public int EditToFens([FromBody]ShopFen s)
+        {
+            
+            return bll.EditToFens(s);
+        }
+        [EnableCors("kuayu")]
+        [HttpGet("SeleToFenId")]
+        //反填商品信息
+        public ShopFen SeleToFenId(int id)
+        {
+         
+            return bll.SeleToFenId(id);
+        }
+        [EnableCors("kuayu")]
+        [HttpGet("GetSaxFens")]
+        //获取商品每个价格、所属品牌
+        public object GetSaxFens(int Page = 1, int PageSize = 10,string ShopName = "")
+        {
+            var data1 = bll.GetSaxFens(ShopName);
+            var data = new
+            {
+                code = 0,
+                msg = "",
+                count = data1.Count(),
+                data = data1.Skip((Page - 1) * PageSize).Take(PageSize).ToList(),
+            };
+            return Ok(JsonConvert.SerializeObject(data));
+        }
+        [EnableCors("kuayu")]
+        [HttpPost("AddSaxFens")]
+        //添加商品价格信息
+        public int AddSaxFens([FromBody] ShopTab s)
+        {
+            return bll.AddSaxFens(s);
+        }
+        [EnableCors("kuayu")]
+        [HttpGet("SaxFensid")]
+        //获取商品每个价格、所属品牌
+        public ShopTab SaxFensid(int id)
+        {
+            return bll.SaxFensid(id);
+        }
+        [EnableCors("kuayu")]
+        [HttpPost("UptSaxFens")]
+        //修改
+        public int UptSaxFens([FromBody]ShopTab s)
+        {
+            return bll.UptSaxFens(s);
+        }
     }
+
 }

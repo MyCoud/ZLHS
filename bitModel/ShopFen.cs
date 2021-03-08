@@ -14,7 +14,8 @@ namespace bitModel
 
         public int Pid { get; set; }//父级ID
         public int Size { get; set; }//大小
-        public string FNameEass        { get; set; }
+       
+        public string FNameEass     { get; set; }
         public int Color { get; set; }//颜色
         public int Kucun      { get; set; }//库存
                                            //外键
@@ -23,6 +24,7 @@ namespace bitModel
         public string Shop_Unit { get; set; }//商品单位表
 
         public decimal Shop_Clear { get; set; }//商品出售价格
+        public string ShopKuState { get; set; }//商品库存
 
     }
 }
