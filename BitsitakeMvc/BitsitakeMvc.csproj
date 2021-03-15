@@ -17,6 +17,8 @@
     <None Include="wwwroot\echarts-5.0.2\.github\pull_request_template.md" />
     <None Include="wwwroot\echarts-5.0.2\.github\stale.yml" />
     <None Include="wwwroot\echarts-5.0.2\.github\workflows\nodejs.yml" />
+    <None Include="wwwroot\Vue\vue.js" />
+    <None Include="wwwroot\Vue\vue.min.js" />
   </ItemGroup>
 
   <ItemGroup>

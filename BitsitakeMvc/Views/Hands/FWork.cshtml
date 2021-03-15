@@ -10,6 +10,8 @@
     <meta name="viewport" content="width=device-width" />
     <title>FWork</title>
     <link href="~/layui-v2.5.7/layui/css/layui.css" rel="stylesheet" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/js/jquery.unobtrusive-ajax.js"></script>
 </head>
 <body>
     <style>
@@ -22,33 +24,48 @@
         <a style="margin-left:50px;">商品管理</a>
         <a>/商品列表</a>
 
-            <div style="width:1300px;height:100px;border:1px solid #dddddd;margin-top:30px;margin-left:20px;">
-                <div style="width:300px;height:50px;">
-                    <label class="layui-form-label">商品编号</label>
-                    <input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="btndd" />
-                </div>
-                <div style="width:300px;height:50px;margin-left:320px;margin-top:-50px;">
-                    <label class="layui-form-label">商品名称</label>
-                    <input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="btndd" />
-                </div>
-                <div style="width:300px;height:50px;margin-left:640px;margin-top:-50px;">
-                    <label class="layui-form-label">商品品牌</label>
-                    <input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="btndd" />
-                </div>
-                <div style="width:300px;height:50px;margin-left:960px;margin-top:-50px;">
-                    <label class="layui-form-label">商品状态</label>
-                    <input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="btndd" />
-                </div>
-                <button type="button" class="layui-btn layui-btn-normal" style="margin-left:40px;">搜索</button>
-                <button type="button" class="layui-btn">
-                    <i class="layui-icon">&#xe608;</i> 添加
-                </button>
-
+        <div style="width:1300px;height:100px;border:1px solid #dddddd;margin-top:30px;margin-left:20px;" class="demoTable">
+            <div style="width:300px;height:50px;">
+                <label class="layui-form-label">商品编号</label>
+                <input id="SId" type="text" name="ShopId" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="btndd" />
             </div>
-            <table class="layui-hide" id="demo" lay-filter="test"></table>
-        </div>
+            <div style="width:300px;height:50px;margin-left:320px;margin-top:-50px;">
+                <label class="layui-form-label">商品名称</label>
+                <input id="Name" type="text" name="ShopName" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="btndd" />
+            </div>
+            <div style="width:300px;height:50px;margin-left:640px;margin-top:-50px;">
+                <label class="layui-form-label">商品品牌</label>
+                <input id="PName" type="text" name="Name" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="btndd" />
+            </div>
+            <div style="width:300px;height:50px;margin-left:960px;margin-top:-50px;">
+                <label class="layui-form-label">商品状态</label>
+                <input id="StateId" type="text" name="ShopSpState" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="btndd" />
+            </div>
+            <input class="layui-btn" data-type="reload" value="搜索" style="width:70px;margin-left:40px;">
+            <input class="layui-btn" id="btnAdd" value="添加" style="width:70px;margin-left:40px;">
 
-        <script>
+        </div>
+        <table class="layui-hide" id="demo" lay-filter="test"></table>
+        <script type="text/html" id="barDemo">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    
+            {{#  if(d.ShopSpState ==0){ }}
+            <a class="layui-btn layui-btn-disabled layui-btn-xs" lay-event="del">下架</a>
+            {{#  }  else  { }}
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">下架</a>
+            {{#  } }}
+        </script>
+
+
+    </div>
+    <script src="~/layui-v2.5.7/layui/layui.js"></script>
+    <script>
+        $('#btnAdd').on('click', function () {
+
+
+        }
+    </script>
+    <script>
 
 
             layui.config({
@@ -71,32 +88,105 @@
                     layer.tips('切换了 ' + data.index + '：' + this.innerHTML, this, {
                         tips: 1
                     });
-                });
+                })
 
                 //执行一个 table 实例
                 table.render({
+
                     elem: '#demo'
                     , height: 420
-                    , url: '/demo/table/user/' //数据接口
+                    , url: 'http://localhost:52142/api/Defunct/GetShopTabs'
+                    , id: 'testReload'
                     , title: '用户表'
                     , page: true //开启分页
                     , totalRow: true //开启合计行
                     , cols: [[ //表头
-                        { type: 'checkbox', fixed: 'left' }
-
-                        , { field: 'username', title: '商品编号', width: 100 }
-                        , { field: 'username', title: '商品名称', width: 100 }
-                        , { field: 'username', title: '商品图片', width: 100 }
-                        , { field: 'username', title: '商品价格', width: 100 }
-                        , { field: 'username', title: '商品品牌', width: 100 }
-                        , { field: 'username', title: '商品属性', width: 100 }
-                        , { field: 'username', title: '库存状态', width: 100 }
-                        , { field: 'username', title: '商品状态', width: 100 }
-                        , { fixed: 'right', title: '操作', width: 165, align: 'center', toolbar: '#barDemo' }
+                       
+                        { field: 'ShopId', title: '商品编号', width: 140 }
+                        , { field: 'ShopName', title: '商品名称', width: 140 }
+                        , {
+                            field: 'Texplain', title: '商品图片', width: 140,
+                            templet: '<div><img src="{{ d.Texplain}}"></div>', style: 'height:48px;width:48px;line-height:48px!important;'
+                        }
+                        , { field: 'Shop_Stock', title: '商品价格', width: 140 }
+                        , { field: 'Name', title: '商品品牌', width: 140 }
+                        , { field: 'Fname', title: '商品属性', width: 140 }
+                        , { field: 'ShopKuState', title: '库存状态', width: 140 }
+                        , { field: 'ShopSpState', title: '商品状态', width: 140, templet: '#titleTpl'}
+                        , { fixed: 'right', title: '操作', width: 145, align: 'center', toolbar: '#barDemo'}
                     ]]
                 });
-            });
+                var $ = layui.$, active = {
+                    reload: function () {
+                        var SId = $('#SId');
+                        var Name = $('#Name');
+                        var PName = $('#PName');
+                        var StateId = $('#StateId');
+                        //执行重载
+                        table.reload('testReload', {
+                            page: {
+                                curr: 1 //重新从第 1 页开始
+                            }
+                            , where: {
+                                Fname: SId.val(),
+                                ShopName: Name.val(),
+                                Name: PName.val(),
+                                ShopSpState: StateId.val()
+                            }
+                        }, 'data');
+                    }
+                };
+                $('.demoTable .layui-btn').on('click', function () {
+                    var type = $(this).data('type');
+                    active[type] ? active[type].call(this) : '';
+                });
+                table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+                    var data = obj.data //获得当前行数据
 
-        </script>
+                    if (obj.event === 'del') {
+
+                        console.log(data);
+                        layer.confirm('真的下架行么', function () {
+                            $.ajax({
+                                url: 'http://localhost:52142/api/Defunct/SangToJia?id=' + data.ShopId,
+                                type: 'post',
+                                dataType: 'json',
+                                contentType: "application/json",//跨域
+                                success: function (result) {
+                                    if (result > 0) {
+                                        alert('下架成功');
+                                        location.reload();
+                                    }
+                                    else {
+                                        alert('下架失败');
+                                    }
+                                }
+                            })
+                        })
+                    }
+                    else if (obj.event === 'edit') {
+
+
+                    }
+
+
+                    //动态向表传递赋值可以参看文章进行修改界面的更新前数据的显示，当然也是异步请求的要数据的修改数据的获取
+
+
+
+                });
+                });
+
+
+    </script>
+    <script type="text/html" id="titleTpl">
+        {{#  if(d.ShopSpState ==0){ }}
+        <button type="button" class="layui-btn layui-bg-orange layui-btn-sm">下架</button>
+        {{#  }  else  { }}
+        <button type="button" class="layui-btn layui-bg-blue layui-btn-sm" style="background-color: #1E9FFF">上架中</button>
+        {{#  } }}
+
+    </script>
+
 </body>
 </html>

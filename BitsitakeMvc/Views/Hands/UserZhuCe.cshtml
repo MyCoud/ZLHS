@@ -36,34 +36,35 @@
                 <label class="layui-this" style="font-size: 25px;width:100px;margin-left:140px;border-bottom:none;color:#12ADA9">注册</label>
                 <div class="layui-tab-content" style="height: 100px;">
                     <div class="layui-tab-item layui-show" style="float:left;margin-left:20px;margin-top:50px">
-                        <table>
+                        <form class="layui-form">
                             <tr>
                                 <td>
                                     <i class="layui-icon layui-icon-user" style="font-size:20px;color:#20232A;float:left;margin-left:-23px;color:#12ADA9"></i>
-                                    <input type="text"  name="LoginPhone" required lay-verify="required" placeholder="请输入手机号码" autocomplete="off" class="layui-input" id="LoginPhone" style="border:none;margin-top:-10px;border-bottom:1px solid #c1c1c1">
-                                    <button type="button" class="layui-btn" style="background-color:#12ADA9;float:left;margin-left:165px;margin-top:-39px">点击发送验证码</button>
+                                    <input type="text" name="LoginPhone" required lay-verify="required" placeholder="请输入手机号码" autocomplete="off" class="layui-input" id="LoginPhone" style="border:none;margin-top:-10px;border-bottom:1px solid #c1c1c1">
+                                    <button type="button" lay-submit lay-filter="PhoneCode" id="PCode" class="layui-btn" style="background-color:#12ADA9;float:left;margin-left:165px;margin-top:-39px" onclick="sendCode(this)" >点击发送验证码</button>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
                                     <i class="layui-icon layui-icon-auz" style="font-size:20px;color:#20232A;float:left;margin-top:60px;margin-left:-23px;color:#12ADA9"></i>
-                                    <input type="text" name="LoginCode" required lay-verify="required" placeholder="请输入验证码" autocomplete="off" class="layui-input" id="LoginCode" style="border: none;border-bottom: 1px solid #c1c1c1;width:300px;margin-top:50px">
-                                    <img src="/Hands/GetValidateImage" id="valiCode" placeholder="请输入验证码" alt="Alternate Text" />
+                                    <input type="password" id="Code" name="PhoneCode" required lay-verify="required" placeholder="请输入验证码" autocomplete="off" class="layui-input" style="border: none;border-bottom: 1px solid #c1c1c1;width:300px;margin-top:50px">
+                                    @*<img src="/Hands/GetValidateImage"  placeholder="请输入验证码" alt="Alternate Text" />*@
                                 </td>
                             </tr>
                             <tr>
                                 <td>
                                     <i class="layui-icon layui-icon-password" style="font-size:20px;color:#20232A;float:left;margin-top:60px;margin-left:-23px;color:#12ADA9"></i>
-                                    <input type="text" name="LoginPass" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input" id="LoginPass" style="border: none;border-bottom: 1px solid #c1c1c1;width:300px;margin-top:50px">
+                                    <input type="password" name="LoginPass" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input" id="LoginPass" style="border: none;border-bottom: 1px solid #c1c1c1;width:300px;margin-top:50px">
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                
+
                                     <input id="btnAdd" type="button" value="注册" class="layui-btn" lay-submit lay-filter="formDemo" />
+
                                 </td>
                             </tr>
-                        </table>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -72,13 +73,19 @@
     <script src="~/layui-v2.5.7/layui/layui.js"></script>
 
     <script>
+        layui.use(['form', 'layedit', 'laydate'], function () {
+            var form = layui.form
+                , layer = layui.layer
+                , layedit = layui.layedit
+                , laydate = layui.laydate;
         $('#btnAdd').on('click', function (data) {
+            alert(1);
             var data =
             {
                 LoginPhone: $('#LoginPhone').val(),
                 LoginCode: $('#LoginCode').val(),
                 LoginPass: $('#LoginPass').val(),
-            
+
             };
             $.ajax({
                 url: 'http://localhost:52142/api/Defunct/Zhuce',
@@ -90,7 +97,8 @@
                 success: function (d) {
                     if (d > 0) {
                         alert('注册成功');
-                        
+                        location.href = '/Hands/UserDeng';
+
                     }
                     else if (d == -1) {
                         alert("注册失败");
@@ -103,14 +111,88 @@
                 }
             })
         });
-        $(function () {
-            $('#valiCode').click(function () {
-                var now = new Date();
-                this.src = "http://localhost:52142/api/Defunct/GetValidateImage?time=" + now.getTime();
+        });
+        //layui.use(['form', 'jquery'], function () {
+
+        //});
+
+        //$(function () {
+        //    $('#PCode').click(function () {
+        //        var now = new Date();
+        //        this.src = "http://localhost:52142/api/Defunct/GetValidateImage?time=" + now.getTime();
+        //    });
+        //});
+    </script>
+
+
+    <script type="text/javascript">
+        var form = layui.form;
+        var $ = layui.$;
+        //验证码读秒
+        var counts = 60;
+        var Id = window.location.search.substring(4);
+        //发送验证码的点击操作
+        function settime(val) {
+            if (counts == 0) {
+                val.removeAttribute("disabled");
+                val.value = "获取验证码";
+                counts = 60;
+                return false;
+            } else {
+                val.setAttribute("disabled", true);
+                val.value = "重新发送（" + counts + "）";
+                counts--;
+            }
+            setTimeout(function () {
+                settime(val);
+            }, 1000);
+        };
+        //获取验证码
+        $("#PCode").click(function () {
+            var userinfo = {
+                "Phone": $("input[name='LoginPhone']").val(),
+            };
+            var qqq = "http://localhost:52142/api/Defunct/Yzm?Phone=" + userinfo.Phone;
+            $.ajax({
+                url: qqq,
+                data: userinfo,
+                type: "post",
+                success: function (data) {
+                    if (JSON.parse(data).state === 404 || JSON.parse(data).state === 202) {
+                        alert("验证码发送失败")
+                    } else if (data > 0) {
+                        alert("验证码发送成功，请耐心等待")
+
+                    }
+                    else if ($('#Code').val() != PhoneCode) {
+                        alert('验证码错误');
+                    }
+
+                },
+                error: function () {
+                    alert("发送失败");
+                }
             });
         });
+        var clock = '';
+        var nums = 60;
+        var btn;
+        function sendCode(thisBtn) {
+            btn = thisBtn;
+            btn.disabled = true; //将按钮置为不可点击
+            btn.value = nums + '秒后可重新获取';
+            clock = setInterval(doLoop, 1000); //一秒执行一次
+        }
+   
+        ////form 监听 添加按钮事件
+        //form.on('submit(shouOK)', function (data) {
+        //    location.href = '/Set/SetNewPassWord/?Id=' + Id;
+
+        //    //form有默认提交 要return fales 取消这个默认提交
+        //    return false;
 
     </script>
+
 </body>
 </html>
 

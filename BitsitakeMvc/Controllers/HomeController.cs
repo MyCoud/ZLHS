@@ -23,6 +23,11 @@ namespace BitsitakeMvc.Controllers
             return View();
         }
 
+        public IActionResult StuVue()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();

@@ -239,6 +239,7 @@
         });
         $('#test5').on('click', function (data) {
             alert('上传成功');
+            location.reload();
         })
         //添加提交
         $('#btnAdd').on('click', function (data) {
@@ -263,6 +264,7 @@
                 success: function (d) {
                     if (d > 0) {
                         alert('成功');
+                        location.reload();
                     }
                     else {
                         alert('失败');
@@ -366,6 +368,7 @@
                     success: function (d) {
                         if (d > 0) {
                             alert('成功');
+                            location.reload();
                         }
                         else {
                             alert('失败');
@@ -388,6 +391,7 @@
                     success: function (d) {
                         if (d > 0) {
                             alert('成功');
+                            location.reload();
                         }
                         else {
                             alert('失败');
