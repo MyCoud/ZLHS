@@ -11,9 +11,9 @@ namespace bitBLL
     {
         LictbDal dal = new LictbDal();
         //获取商品列表所有数据
-        public List<ShopTab> GetShopTabs(int ShopCoutID, string ShopName, int Shop_Pid, int ShopSpState)
+        public List<ShopTab> GetShopTabs(int ShopId, string ShopName, string Name, int ShopSpState)
         {
-            return dal.GetShopTabs(ShopCoutID,ShopName,Shop_Pid,ShopSpState);
+            return dal.GetShopTabs(ShopId, ShopName,Name,ShopSpState);
         }
    
         //添加商品信息
@@ -93,6 +93,10 @@ namespace bitBLL
         public int UptSaxFens(ShopTab s)
         {
             return dal.UptSaxFens(s);
+        }
+        public int SangToJia(int id)
+        {
+            return dal.SangToJia(id);
         }
     }
 }

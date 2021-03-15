@@ -19,7 +19,6 @@ namespace bitidal
             string sql = $"insert into PLogins values ('{s.LoginPhone}','{s.LoginCode}','{s.LoginPass}','{null}','{null}')";
             return conn.Execute(sql);
         }
-        //登录
         public int GetReuslt(string LoginPhone, string LoginPass)
         {
             string sql = $"select count(1) from PLogins where LoginPhone = '{LoginPhone}' and LoginPass= '{LoginPass}'";

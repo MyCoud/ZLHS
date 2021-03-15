@@ -13,17 +13,17 @@ using System.Data.SqlClient;
 using Microsoft.Data.SqlClient;
 using Dapper;
 using System.Xml.Linq;
-
 using bitibll;
-
 using Newtonsoft.Json;
 using Common;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
-    
 
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.AspNetCore.Builder;
-
+using System.Text;
+using System.Net;
+using Microsoft.EntityFrameworkCore.Storage;
 namespace Bitsitake.Controllers
 {
     [Route("api/[controller]")]
@@ -31,15 +31,13 @@ namespace Bitsitake.Controllers
     public class DefunctController : ControllerBase
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public DefunctController(IWebHostEnvironment webHostEnvironment)
+        private readonly IDatabase _redis;
+        public DefunctController(IWebHostEnvironment webHostEnvironmen)
         {
-            _webHostEnvironment = webHostEnvironment;
+            _webHostEnvironment = webHostEnvironmen;
+
         }
-     
-
-
         LictBLL bll = new LictBLL();
-
         ZhsbLL bat = new ZhsbLL();
         //[EnableCors("any")]  //局部的
         //[HttpPost("mename")]
@@ -48,12 +46,21 @@ namespace Bitsitake.Controllers
         //    string sql = $"insert into users values ('{s.name}','{s.age}')";
         //    return conn.Execute(sql);
         //}
+
         [EnableCors("kuayu")]
-        [HttpGet("GetShop")]
+        [HttpGet("GetShopTabs")]
         //获取商品列表所有数据
-        public List<ShopTab> GetShopTabs(int ShopCoutID, string ShopName, int Shop_Pid, int ShopSpState)
+        public object GetShopTabs(int Page = 1, int PageSize = 10, int ShopId = 0, string ShopName = "", string Name = "", int ShopSpState = 0)
         {
-            return bll.GetShopTabs(ShopCoutID, ShopName, Shop_Pid, ShopSpState);
+            var data1 = bll.GetShopTabs(ShopId, ShopName, Name, ShopSpState);
+            var data = new
+            {
+                code = 0,
+                msg = "",
+                count = data1.Count(),
+                data = data1.Skip((Page - 1) * PageSize).Take(PageSize).ToList(),
+            };
+            return Ok(JsonConvert.SerializeObject(data));
         }
 
         [EnableCors("kuayu")]
@@ -81,7 +88,7 @@ namespace Bitsitake.Controllers
 
         //public object TuPin()
         //{
-         
+
         //    var pic = Request.Form.Files[0];
         //    if (pic != null)
         //    {
@@ -97,7 +104,7 @@ namespace Bitsitake.Controllers
         //    }
         //    return null;
         //}
-         [EnableCors("kuayu")]
+        [EnableCors("kuayu")]
         [HttpPost("addtext")]
         //添加商品说明
         public int Addtext([FromBody] ShopImg s)
@@ -142,7 +149,7 @@ namespace Bitsitake.Controllers
         [EnableCors("kuayu")]
         [HttpPost("GetReuslt")]
         //登录
-        public int GetReuslt([FromBody] string LoginPhone, string LoginPass)
+        public int GetReuslt(string LoginPhone, string LoginPass)
         {
             return bat.GetReuslt(LoginPhone, LoginPass);
         }
@@ -184,14 +191,14 @@ namespace Bitsitake.Controllers
         [EnableCors("kuayu")]
         [HttpPost("AddFens")]
         //商品分类编辑
-        public int AddFens([FromBody]ShopFen s)
+        public int AddFens([FromBody] ShopFen s)
         {
             return bll.AddFens(s);
         }
         [EnableCors("kuayu")]
         [HttpGet("GetToFens")]
         //获取商品分类编辑
-        public object GetToFens(int Page=1,int PageSize = 10,string Fname="")
+        public object GetToFens(int Page = 1, int PageSize = 10, string Fname = "")
         {
             var data1 = bll.GetToFens(Fname);
             var data = new
@@ -213,9 +220,9 @@ namespace Bitsitake.Controllers
         [EnableCors("kuayu")]
         [HttpPost("EditToFens")]
         //编辑商品
-        public int EditToFens([FromBody]ShopFen s)
+        public int EditToFens([FromBody] ShopFen s)
         {
-            
+
             return bll.EditToFens(s);
         }
         [EnableCors("kuayu")]
@@ -223,13 +230,13 @@ namespace Bitsitake.Controllers
         //反填商品信息
         public ShopFen SeleToFenId(int id)
         {
-         
+
             return bll.SeleToFenId(id);
         }
         [EnableCors("kuayu")]
         [HttpGet("GetSaxFens")]
         //获取商品每个价格、所属品牌
-        public object GetSaxFens(int Page = 1, int PageSize = 10,string ShopName = "")
+        public object GetSaxFens(int Page = 1, int PageSize = 10, string ShopName = "")
         {
             var data1 = bll.GetSaxFens(ShopName);
             var data = new
@@ -258,10 +265,92 @@ namespace Bitsitake.Controllers
         [EnableCors("kuayu")]
         [HttpPost("UptSaxFens")]
         //修改
-        public int UptSaxFens([FromBody]ShopTab s)
+        public int UptSaxFens([FromBody] ShopTab s)
         {
             return bll.UptSaxFens(s);
         }
-    }
+        [EnableCors("kuayu")]
+        [HttpPost("SangToJia")]
+        public int SangToJia(int id)
+        {
+            return bll.SangToJia(id);
+        }
+        //手机发送验证码
+        public static string PostUrl = "http://106.ihuyi.cn/webservice/sms.php?method=Submit";
+        /// <summary>
+        /// 进行手机验证码验证查询 从而重置密码
+        /// </summary>
+        /// <param name="Phone"></param>
+        /// <returns></returns>
+        [EnableCors("kuayu")]
+        [HttpPost("Yzm")]
+        public IActionResult Yzm(string Phone)
+        {
+            string account = "C72839206";//用户名是登录用户中心->验证码、通知短信->帐户及签名设置->APIID
+            string password = "a4423689fc96480c10218c9891eb10df"; //密码是请登录用户中心->验证码、通知短信->帐户及签名设置->APIKEY
 
+            Random rad = new Random();
+            int mobile_code = rad.Next(1000, 10000);
+            string content = "您的验证码是：" + mobile_code + " 。请不要把验证码泄露给其他人。";
+
+            //Session["mobile"] = mobile;
+            //Session["mobile_code"] = mobile_code;
+
+            string postStrTpl = "account={0}&password={1}&mobile={2}&content={3}";
+
+            UTF8Encoding encoding = new UTF8Encoding();
+            byte[] postData = encoding.GetBytes(string.Format(postStrTpl, account, password, Phone, content));
+
+            HttpWebRequest myRequest = (HttpWebRequest)WebRequest.Create(PostUrl);
+            myRequest.Method = "POST";
+            myRequest.ContentType = "application/x-www-form-urlencoded";
+            myRequest.ContentLength = postData.Length;
+
+            Stream newStream = myRequest.GetRequestStream();
+            // Send the data.
+            newStream.Write(postData, 0, postData.Length);
+            newStream.Flush();
+            newStream.Close();
+
+            HttpWebResponse myResponse = (HttpWebResponse)myRequest.GetResponse();
+            if (myResponse.StatusCode == HttpStatusCode.OK)
+            {
+                StreamReader reader = new StreamReader(myResponse.GetResponseStream(), Encoding.UTF8);
+
+                //Response.Write(reader.ReadToEnd());
+
+                string res = reader.ReadToEnd();
+                int len1 = res.IndexOf("</code>");
+                int len2 = res.IndexOf("<code>");
+                string code = res.Substring((len2 + 6), (len1 - len2 - 6));
+                //Response.Write(code);
+
+                int len3 = res.IndexOf("</msg>");
+                int len4 = res.IndexOf("<msg>");
+                string msg = res.Substring((len4 + 5), (len3 - len4 - 5));
+
+                return Ok(mobile_code);
+            }
+            else
+            {
+                return Ok(0);
+            }
+        }
+        [EnableCors("kuayu")]
+        [HttpPost("IsLogin")]
+        public bool IsLogin()
+        {
+
+            string userId = null;
+            if (HttpContext.Session.TryGetValue("UserId", out byte[] bytes))
+            {
+                userId = Encoding.UTF8.GetString(bytes);
+            }
+            return !string.IsNullOrWhiteSpace(userId);
+
+        }
+    }
 }
+
+
+

@@ -13,25 +13,27 @@ namespace bitDal
 
         SqlConnection conn = new SqlConnection("data source=192.168.0.100\\MSSQLSERVERSUN;User ID=lishibin;pwd=123456;Initial Catalog=ERP");
         //获取商品列表所有数 据//根据商品编号,商品名称，商品品牌，商品状态查询多条件查询
-        public List<ShopTab> GetShopTabs(int ShopCoutID, string ShopName, int Shop_Pid, int ShopSpState)
+        public List<ShopTab> GetShopTabs(int ShopId, string ShopName,string Name, int ShopSpState)
         {
-            string sql = "select a.ShopCoutID,a.ShopName,a.Shop_Tid,a.Shop_Stock,a.Shop_Pid,a.Shop_Sid," +
-                "a.ShopKuState,a.ShopSpState,b.Fname,c.Size,c.Color,c.Fname,d.Timg " +
-                "from ShopTab a join Shopbrand b on a.Shop_Pid = b.Fid join ShopFen c on c.Fid" +
-                " = a.Shop_Pid join ShopImg d on d.Tid = a.Shop_Tid where 1=1 ";
-            if (ShopCoutID != 0)
+            string sql = " select a.ShopId, a.ShopCoutID,a.ShopName,a.Shop_Tid,a.Shop_Stock,a.Shop_Pid,a.Shop_Sid,a.ShopKuState" +
+                ",a.ShopSpState,b.Name,c.Size,c.Color,c.Fname,d.Texplain from ShopTab a join Shopbrand b " +
+                "on a.Shop_Pid = b.Fid join ShopFen c on c.Fid=a.Shop_Pid join ShopImg d on d.Tid = a.Shop_Tid where 1=1 ";
+            if (ShopId != 0)
             {
-                sql += $"and ShopCoutID={ShopCoutID} ";
+                sql += $"and a.ShopCoutID={ShopId} ";
             }
             if (!string.IsNullOrEmpty(ShopName))
             {
-                sql += $"and ShopName like '{ShopName}' ";
+                sql += $"and a.ShopName like '%{ShopName}%' ";
 
+            }
+            if (!string.IsNullOrEmpty(Name))
+            {
+                sql += $"and b.Name like '%{Name}%' ";
             }
             if (ShopSpState != 0)
             {
-                sql += $"and ShopSpState={ShopSpState} ";
-
+                sql += $"and a.ShopSpState={ShopSpState} ";
             }
             return conn.Query<ShopTab>(sql).ToList();
         }
@@ -113,7 +115,7 @@ namespace bitDal
         {
             string sql = "select  a.ShopName,a.Shop_Pid,a.Shop_Sid,a.Shopdate,a.Shop_Stock,a.Shop_Clear," +
                 "a.Shop_Unit,a.ShopId,b.Name,c.Fname from ShopTab a " +
-                "join Shopbrand b on a.Shop_Pid=b.Fid join ShopFen c on c.Fid=a.Shop_Sid where 1=1 ";
+                "join Shopbrand b on a.Shop_Pid=b.Fid join ShopFen c on c.Fid=a.Shop_Pid where 1=1 ";
             if (!string.IsNullOrEmpty(ShopName))
             {
                 sql += $"and ShopName like '%{ShopName}%' ";
@@ -141,6 +143,10 @@ namespace bitDal
                 $"{s.Shop_Sid}',Shop_Stock='{s.Shop_Stock}',Shop_Clear='{s.Shop_Clear}',Shop_Unit='{s.Shop_Unit}' where ShopId={s.ShopId}";
             return conn.Execute(sql);
         }
-
+        public int SangToJia(int id)
+        {
+            string sql = $"Update ShopTab set ShopSpState={0} where ShopId ={id} ";
+            return conn.Execute(sql);
+        }
     }
 }

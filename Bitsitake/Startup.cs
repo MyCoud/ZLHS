@@ -16,6 +16,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
 using Bitsitake.Controllers;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Bitsitake
 {
@@ -41,9 +42,11 @@ namespace Bitsitake
             //    options.MinimumSameSitePolicy = SameSiteMode.None;
             //});
             services.AddDistributedMemoryCache();
-
+         
             services.AddSession();
             services.AddMvc();
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            WxHeperController.HttpContexts.serviceCollection = services;
             //1¡¢×¢²á·þÎñSwagger
             services.AddSwaggerGen(options =>
             {

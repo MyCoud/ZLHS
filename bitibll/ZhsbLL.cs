@@ -18,7 +18,7 @@ namespace bitibll
         //登录
         public int GetReuslt(string LoginPhone, string LoginPass)
         {
-            return dal.GetReuslt(LoginPhone, LoginPass);
+            return dal.GetReuslt(LoginPhone,LoginPass);
         }
     }
 }

@@ -28,6 +28,7 @@ namespace bitModel
         public decimal Shop_Clear { get; set; }//商品出售价格
 
         public string Shop_Unit { get; set; }//商品单位表
+        public string Texplain { get; set; }//外键图片表
 
     }
 }
